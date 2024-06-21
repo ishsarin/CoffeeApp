@@ -16,6 +16,14 @@ const placeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  long: {
+    type: Number,
+    required: true,
+  },
+  lat: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Place = mongoose.model("place", placeSchema);
@@ -37,7 +45,28 @@ app.get("/api/homepage", async (req, res) => {
     const response = await fetch(url, options);
     const result = await response.json();
     // console.log(result.data);
+
     res.send(result.data);
+
+    //adding data to mongodb database only once
+
+    // const newPlaceData = result.data;
+
+    // for (let i = 0; i < newPlaceData.length; i++) {
+    //   if (newPlaceData[i].detail === "0") continue;
+
+    //   let newPlace = await Place.create({
+    //     name: newPlaceData[i].name,
+    //     rating: newPlaceData[i].rating,
+    //     image: newPlaceData[i].photo
+    //       ? newPlaceData[i].photo.images.large.url
+    //       : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY=",
+    //     long: newPlaceData[i].longitude,
+    //     lat: newPlaceData[i].latitude,
+    //   });
+
+    //   console.log(newPlace);
+    // }
   } catch (error) {
     console.error(error);
   }

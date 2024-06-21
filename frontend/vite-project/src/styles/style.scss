@@ -1,13 +1,31 @@
 body {
   font-family: "Raleway";
 }
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 .coffeePlaces {
   &-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 600;
-    margin-block: 20px;
+    margin-top: 20px;
   }
 
   &-card {
@@ -61,4 +79,36 @@ body {
   width: 50%;
   display: flex !important;
   align-items: center;
+}
+
+.beverages {
+  &-ingredients {
+    color: #bbc5c6 !important;
+    font-weight: 400 !important;
+    &-ingredient {
+      font-size: small;
+    }
+  }
+  &-wrapper:hover {
+    cursor: pointer;
+  }
+}
+
+.placeInfo {
+  position: relative;
+  &-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &-navbar {
+    padding-top: 0px !important;
+    position: sticky;
+    top: 0px;
+    z-index: 9;
+    background-color: rgb(248, 249, 250);
+  }
+}
+.close-btn:hover {
+  cursor: pointer;
 }
