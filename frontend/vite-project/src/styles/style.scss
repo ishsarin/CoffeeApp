@@ -112,3 +112,8 @@ body {
 .close-btn:hover {
   cursor: pointer;
 }
+.leaflet-container {
+  width: 600px;
+  height: 400px;
+  position: relative;
+}

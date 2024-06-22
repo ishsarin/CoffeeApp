@@ -72,6 +72,19 @@ app.get("/api/homepage", async (req, res) => {
   }
 });
 
+app.get("/api/homepage/map", async (req, res) => {
+  try {
+    const data = await fetch(
+      "https://us1.locationiq.com/v1/reverse?key=pk.8099310340aa0566a34e0c9935207601&lat=48.8584&lon=2.2945&format=json"
+    );
+    const result = await data.json();
+    console.log(result);
+    // res.send(result)
+  } catch (error) {
+    console.log("Error getting the Map", error);
+  }
+});
+
 app.listen("3000", () => {
   console.log("backend is running");
 });
