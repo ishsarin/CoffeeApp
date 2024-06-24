@@ -11,7 +11,9 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import CoffeePlaceMenu from "./CoffeePlaceMenu";
 import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
-import Map from "./Map";
+// import Map from "./Map";
+import MapboxMap from "./MapboxMap";
+
 const HomePage = () => {
   //usestate
   const [coffeePlaces, setCoffeePlaces] = useState([{}]);
@@ -52,8 +54,8 @@ const HomePage = () => {
     axios.get("/api/homepage").then((response) => {
       setLoading(!loading);
 
-      setCoffeePlaces(response.data);
       // console.log(response.data);
+      setCoffeePlaces(response.data);
     });
   };
 
@@ -65,6 +67,7 @@ const HomePage = () => {
   };
 
   const getTabView = () => {
+    // getCoffeePlaces();
     setMapView(false);
   };
 
@@ -191,7 +194,7 @@ const HomePage = () => {
           <Nav.Link onClick={getTabView}>View in Tabular Form</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link onClick={getMapView}>View Place in Map</Nav.Link>
+          <Nav.Link onClick={getMapView}>View All Places in Map</Nav.Link>
         </Nav.Item>
       </Nav>
 
@@ -263,7 +266,7 @@ const HomePage = () => {
           )}
         </div>
       ) : (
-        <Map coffeePlaces={coffeePlaces} />
+        <MapboxMap coffeePlaces={coffeePlaces} />
       )}
     </>
   );

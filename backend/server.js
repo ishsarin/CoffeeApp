@@ -36,7 +36,7 @@ app.get("/api/homepage", async (req, res) => {
   const options = {
     method: "GET",
     headers: {
-      "x-rapidapi-key": "e37de9475cmshc91754dee8d657cp1f9b19jsnf9309833a34a",
+      "x-rapidapi-key": "401931e516mshebcf325dc280d44p1a1abfjsn16dacd0fe5ec",
       "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
     },
   };
