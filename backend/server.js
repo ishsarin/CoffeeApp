@@ -26,7 +26,25 @@ const placeSchema = new mongoose.Schema({
   },
 });
 
+const userSchema = new mongoose.Schema({
+  // name: {
+  //   type: String,
+  //   required: true,
+  // },
+  // email: {
+  //   type: String,
+  //   required: true,
+  // },
+  // password: {
+  //   type: String,
+  //   required: true,
+  // },
+
+  likedPlaces: [placeSchema],
+});
+
 const Place = mongoose.model("place", placeSchema);
+const User = mongoose.model("user", userSchema);
 
 app.use(cors());
 

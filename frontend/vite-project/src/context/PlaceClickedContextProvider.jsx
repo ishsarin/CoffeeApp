@@ -5,10 +5,14 @@ import { useState } from "react";
 const PlaceMenuContext = createContext();
 
 const PlaceClickedContextProvider = ({ children }) => {
-  const [coffeePlaceCLicked, setCOffeePlaceCLicked] = useState(false);
+  const [coffeePlaceClicked, setCoffeePlaceClicked] = useState(false);
+
   return (
     <PlaceMenuContext.Provider
-      value={{ coffeePlaceCLicked, setCOffeePlaceCLicked }}
+      value={{
+        coffeePlaceClicked,
+        setCoffeePlaceClicked,
+      }}
     >
       {children}
     </PlaceMenuContext.Provider>

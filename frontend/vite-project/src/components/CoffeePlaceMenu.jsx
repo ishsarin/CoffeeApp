@@ -9,7 +9,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 const CoffeePlaceMenu = ({ placeInfo }) => {
-  const { coffeePlaceCLicked, setCOffeePlaceCLicked } =
+  const { coffeePlaceClicked, setCoffeePlaceClicked } =
     useContext(PlaceMenuContext);
 
   const [beverages, setBeverages] = useState([{}]);
@@ -81,7 +81,7 @@ const CoffeePlaceMenu = ({ placeInfo }) => {
             strokeLinecap="round"
             strokeLinejoin="round"
             className="feather feather-x-square close-btn"
-            onClick={() => setCOffeePlaceCLicked(!coffeePlaceCLicked)}
+            onClick={() => setCoffeePlaceClicked(!coffeePlaceClicked)}
           >
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
             <line x1="9" y1="9" x2="15" y2="15" />

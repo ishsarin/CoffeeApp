@@ -6,6 +6,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -13,23 +15,21 @@ import CoffeePlaceMenu from "./CoffeePlaceMenu";
 import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 // import Map from "./Map";
 import MapboxMap from "./MapboxMap";
+import LikedPlaces from "./LikedPlaces";
 
-const HomePage = () => {
+const HomePage = ({ coffeePlaces, loading }) => {
   //usestate
-  const [coffeePlaces, setCoffeePlaces] = useState([{}]);
   const [val, setVal] = useState("");
-  const [loading, setLoading] = useState(false);
-
+  const [likeClicked, setLikeClicked] = useState(false);
+  const [navLikeClicked, setNavLikeClicked] = useState(false);
   const [placeInfo, setPlaceInfo] = useState({});
-
   const [mapView, setMapView] = useState(false);
-  const { coffeePlaceCLicked, setCOffeePlaceCLicked } =
+  const { coffeePlaceClicked, setCoffeePlaceClicked } =
     useContext(PlaceMenuContext);
 
+  const navigate = useNavigate();
+
   //useeffect
-  useEffect(() => {
-    getCoffeePlaces();
-  }, []);
 
   //functions
 
@@ -50,20 +50,11 @@ const HomePage = () => {
   //   // console.log(coffeePlaces);
   // };
 
-  const getCoffeePlaces = async () => {
-    axios.get("/api/homepage").then((response) => {
-      setLoading(!loading);
-
-      // console.log(response.data);
-      setCoffeePlaces(response.data);
-    });
-  };
-
   const coffeePlacesClickHandler = (data) => {
-    // console.log(data);
+    console.log(data);
 
     setPlaceInfo({ name: data.name, rating: data.rating });
-    setCOffeePlaceCLicked(!coffeePlaceCLicked);
+    setCoffeePlaceClicked(!coffeePlaceClicked);
   };
 
   const getTabView = () => {
@@ -73,6 +64,32 @@ const HomePage = () => {
 
   const getMapView = () => {
     setMapView(true);
+  };
+
+  const likeClickHandler = (data) => {
+    // console.log(data);
+    setLikeClicked(!likeClicked);
+    data.liked = !data.liked;
+
+    // const likedPlace = coffeePlaces
+    //   .filter((place) => {
+    //     return place.name === data.name;
+    //   })
+    //   .map((place) => {
+    //     return { ...place, liked: !place.liked };
+    //   });
+    // console.log(likedPlace);
+  };
+
+  const navLikeClick = () => {
+    // const path = "/liked-places";
+    // navigate(path);
+    setNavLikeClicked(true);
+  };
+  const navHomeClick = () => {
+    const path = "/";
+    setNavLikeClicked(false);
+    navigate(path);
   };
 
   return (
@@ -112,7 +129,10 @@ const HomePage = () => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link href="#action1" className="navbar-righttabs-icons">
+              <Nav.Link
+                className="navbar-righttabs-icons"
+                onClick={navHomeClick}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -130,7 +150,10 @@ const HomePage = () => {
                 </svg>
                 Home
               </Nav.Link>
-              <Nav.Link href="#action2" className="navbar-righttabs-icons">
+              <Nav.Link
+                onClick={navLikeClick}
+                className="navbar-righttabs-icons"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -198,9 +221,11 @@ const HomePage = () => {
         </Nav.Item>
       </Nav>
 
-      {!mapView ? (
+      {navLikeClicked ? (
+        <LikedPlaces coffeePlaces={coffeePlaces} />
+      ) : !mapView ? (
         <div className="coffeePlaces-wrapper">
-          {!coffeePlaceCLicked ? (
+          {!coffeePlaceClicked ? (
             <Container>
               <Row className="coffeePlaces-wrapper">
                 {!loading
@@ -211,50 +236,70 @@ const HomePage = () => {
                           md={3}
                           className="coffeePlaces-card-wrapper"
                           key={data.id}
-                          onClick={() => coffeePlacesClickHandler(data)}
                         >
                           <Card style={{ width: "18rem", border: "none" }}>
-                            <Card.Img
-                              variant="top"
-                              src={
-                                data.photo
-                                  ? data.photo.images.large.url
-                                  : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY="
-                              }
-                              height={200}
-                              width={100}
-                              className="coffeePlaces-card-img"
-                            />
-                            <Card.Body>
-                              <Card.Title
-                                style={{
-                                  fontWeight: "900",
-                                  color: "rgb(0, 59,64)",
-                                }}
+                            <div
+                              className="coffeePlaces-like-btn"
+                              onClick={() => likeClickHandler(data)}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill={data.liked ? "rgb(0, 59, 64)" : "none"}
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="feather feather-heart"
                               >
-                                {data.name}
-                              </Card.Title>
-                              <Card.Text style={{ color: "rgb(0, 59,64)" }}>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="rgb(253,203,110)"
-                                  stroke="rgb(253,203,110)"
-                                  strokeWidth="3"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="feather feather-star"
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                              </svg>
+                            </div>
+                            <div onClick={() => coffeePlacesClickHandler(data)}>
+                              <Card.Img
+                                variant="top"
+                                src={
+                                  data.photo
+                                    ? data.photo.images.large.url
+                                    : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY="
+                                }
+                                height={200}
+                                width={100}
+                                className="coffeePlaces-card-img"
+                              />
+                              <Card.Body>
+                                <Card.Title
+                                  style={{
+                                    fontWeight: "900",
+                                    color: "rgb(0, 59,64)",
+                                  }}
                                 >
-                                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                </svg>
-                                {data.rating}
-                                <span className="coffeePlaces-card-reviews">
-                                  0 reviews
-                                </span>
-                              </Card.Text>
-                            </Card.Body>
+                                  {data.name}
+                                </Card.Title>
+                                <Card.Text style={{ color: "rgb(0, 59,64)" }}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="rgb(253,203,110)"
+                                    stroke="rgb(253,203,110)"
+                                    strokeWidth="3"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="feather feather-star"
+                                  >
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                  </svg>
+                                  {data.rating}
+                                  <span className="coffeePlaces-card-reviews">
+                                    0 reviews
+                                  </span>
+                                </Card.Text>
+                              </Card.Body>
+                            </div>
                           </Card>
                         </Col>
                       )
