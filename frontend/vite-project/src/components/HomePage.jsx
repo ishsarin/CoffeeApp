@@ -20,6 +20,7 @@ import LikedPlaces from "./LikedPlaces";
 const HomePage = ({ coffeePlaces, loading }) => {
   //usestate
   const [val, setVal] = useState("");
+  const [likedPlaces, setLikedPlaces] = useState([{}]);
   const [likeClicked, setLikeClicked] = useState(false);
   const [navLikeClicked, setNavLikeClicked] = useState(false);
   const [placeInfo, setPlaceInfo] = useState({});
@@ -70,15 +71,14 @@ const HomePage = ({ coffeePlaces, loading }) => {
     // console.log(data);
     setLikeClicked(!likeClicked);
     data.liked = !data.liked;
+    allLikedPlaces(data);
+  };
 
-    // const likedPlace = coffeePlaces
-    //   .filter((place) => {
-    //     return place.name === data.name;
-    //   })
-    //   .map((place) => {
-    //     return { ...place, liked: !place.liked };
-    //   });
-    // console.log(likedPlace);
+  const allLikedPlaces = async (data) => {
+    // const places = data.filter((place) => {
+    //   return place.liked === true;
+    // });
+    // console.log(data);
   };
 
   const navLikeClick = () => {
@@ -89,6 +89,11 @@ const HomePage = ({ coffeePlaces, loading }) => {
   const navHomeClick = () => {
     const path = "/";
     setNavLikeClicked(false);
+    navigate(path);
+  };
+
+  const navAccountClick = () => {
+    const path = "/user/sign-up";
     navigate(path);
   };
 
@@ -189,7 +194,10 @@ const HomePage = ({ coffeePlaces, loading }) => {
                 </svg>
                 Add Location
               </Nav.Link>
-              <Nav.Link href="#action2" className="navbar-righttabs-icons">
+              <Nav.Link
+                className="navbar-righttabs-icons"
+                onClick={navAccountClick}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"

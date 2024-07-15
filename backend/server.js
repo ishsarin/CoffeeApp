@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 
 const placeSchema = new mongoose.Schema({
   name: {
@@ -27,35 +28,38 @@ const placeSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-  // name: {
-  //   type: String,
-  //   required: true,
-  // },
-  // email: {
-  //   type: String,
-  //   required: true,
-  // },
-  // password: {
-  //   type: String,
-  //   required: true,
-  // },
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
 
-  likedPlaces: [placeSchema],
+  likedPlaces: [
+    { name: String, rating: Number, image: String, long: Number, lat: Number },
+  ],
 });
 
 const Place = mongoose.model("place", placeSchema);
 const User = mongoose.model("user", userSchema);
 
 app.use(cors());
-
+app.use(bodyParser.json());
 app.get("/api/homepage", async (req, res) => {
   const url =
     "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude=12.91285&longitude=100.87808&limit=30&currency=USD&distance=2&open_now=false&lunit=km&lang=en_US";
   const options = {
     method: "GET",
     headers: {
-      "x-rapidapi-key": "401931e516mshebcf325dc280d44p1a1abfjsn16dacd0fe5ec",
+      "x-rapidapi-key": "9249316e6bmsh87cd3ad4dd32527p1b162cjsndfe173a02884",
       "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
+      "Content-Type": "application/json",
     },
   };
 
@@ -63,7 +67,6 @@ app.get("/api/homepage", async (req, res) => {
     const response = await fetch(url, options);
     const result = await response.json();
     // console.log(result.data);
-
     res.send(result.data);
 
     //adding data to mongodb database only once
@@ -90,17 +93,47 @@ app.get("/api/homepage", async (req, res) => {
   }
 });
 
-app.get("/api/homepage/map", async (req, res) => {
+// app.post("/api/places/liked", async (req, res) => {
+//   const likedPlacesData = req.body;
+//   console.log(likedPlacesData);
+
+//   const places = [];
+//   for (let i = 0; i < likedPlacesData.length; i++) {
+//     places.push(likedPlacesData[i]);
+//   }
+//   const user = new User({ likedPlaces: places });
+//   user.save();
+// });
+
+app.post("/api/user/signin", async (req, res) => {
   try {
-    const data = await fetch(
-      "https://us1.locationiq.com/v1/reverse?key=pk.8099310340aa0566a34e0c9935207601&lat=48.8584&lon=2.2945&format=json"
-    );
-    const result = await data.json();
-    console.log(result);
-    // res.send(result)
+    const { userName, password } = req.body;
+    const user = await User.findOne({ name: userName, password: password });
+
+    if (user) {
+      console.log("User found");
+      res.send(user);
+    } else {
+      console.log("User not found");
+      // res.status(401).send({ error: "Invalid credentials" });
+      res.send("Invalid credentials");
+    }
   } catch (error) {
-    console.log("Error getting the Map", error);
+    console.error("Error during sign-in:", error);
+    res.status(500).send({ error: "Internal Server Error" });
   }
+});
+
+app.post("/api/user/signup", async (req, res) => {
+  const userDetails = req.body;
+  // console.log(newUser);
+
+  const newUser = await User.create({
+    name: userDetails.userName,
+    email: userDetails.email,
+    password: userDetails.password,
+  });
+  newUser.save();
 });
 
 app.listen("3000", () => {

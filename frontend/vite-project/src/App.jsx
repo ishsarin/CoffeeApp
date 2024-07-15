@@ -5,7 +5,8 @@ import axios from "axios";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LikedPlaces from "./components/LikedPlaces";
-
+import UserSignIn from "./components/UserSignIn";
+import UserSignUp from "./components/UserSignUp";
 function App() {
   const [loading, setLoading] = useState(false);
   const [coffeePlaces, setCoffeePlaces] = useState([{}]);
@@ -34,6 +35,8 @@ function App() {
             element={<HomePage coffeePlaces={coffeePlaces} loading={loading} />}
           />
           <Route path="/liked-places" element={<LikedPlaces />} />
+          <Route path="/user/sign-up" element={<UserSignUp />} />
+          <Route path="/user/sign-in" element={<UserSignIn />} />
         </Routes>
       </BrowserRouter>
     </>
