@@ -94,17 +94,32 @@ app.get("/api/homepage", async (req, res) => {
   }
 });
 
-// app.post("/api/places/liked", async (req, res) => {
-//   const likedPlacesData = req.body;
-//   console.log(likedPlacesData);
+app.post("/api/places/liked", async (req, res) => {
+  const likedPlacesData = req.body;
+  console.log(likedPlacesData.likedPlaces);
 
-//   const places = [];
-//   for (let i = 0; i < likedPlacesData.length; i++) {
-//     places.push(likedPlacesData[i]);
-//   }
-//   const user = new User({ likedPlaces: places });
-//   user.save();
-// });
+  for (let i = 0; i < likedPlacesData.likedPlaces.length; i++) {
+    const user = await User.findOneAndUpdate(
+      { name: likedPlacesData.user },
+      {
+        $push: {
+          likedPlaces: {
+            name: likedPlacesData.likedPlaces[i].name,
+            rating: likedPlacesData.likedPlaces[i].rating,
+            image:
+              likedPlacesData.likedPlaces[i].photo.images.large.url ||
+              "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY=",
+            long: likedPlacesData.likedPlaces[i].longitude,
+            lat: likedPlacesData.likedPlaces[i].latitude,
+          },
+        },
+      },
+      { new: true }
+    );
+    user.save();
+    console.log(user);
+  }
+});
 
 app.post("/api/user/signin", async (req, res) => {
   try {

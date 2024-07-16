@@ -32,8 +32,10 @@ const UserSignIn = () => {
       const user = await res.json();
       console.log("User signed in:", user);
       setUser(userName);
-      // window.location.href = "/";
-      naviagte("/");
+      localStorage.setItem("user", JSON.stringify(user));
+
+      window.location.href = "/";
+      // naviagte("/");
     } catch (error) {
       setShow(false);
       console.log("User not found");

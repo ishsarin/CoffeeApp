@@ -16,6 +16,9 @@ import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 // import Map from "./Map";
 import MapboxMap from "./MapboxMap";
 import LikedPlaces from "./LikedPlaces";
+import Button from "react-bootstrap/Button";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const HomePage = ({ coffeePlaces, loading }) => {
   let { user, setUser } = useContext(PlaceMenuContext);
@@ -36,23 +39,6 @@ const HomePage = ({ coffeePlaces, loading }) => {
   //useeffect
 
   //functions
-
-  // const searchChange = () => {
-  //   // console.log(e.target.value);
-  //   // console.log(val);
-
-  //   // if (val === "") setCoffeePlaces(coffeePlaces);
-
-  //   const filteredResults = coffeePlaces.filter((place) => {
-  //     if (place.detail != "0") {
-  //       console.log(place.name);
-  //       if (place.name.toLowerCase().includes(val.toLowerCase())) return place;
-  //     } else return null;
-  //   });
-  //   setCoffeePlaces(filteredResults);
-  //   setVal("");
-  //   // console.log(coffeePlaces);
-  // };
 
   const coffeePlacesClickHandler = (data) => {
     console.log(data);
@@ -84,10 +70,6 @@ const HomePage = ({ coffeePlaces, loading }) => {
     // console.log(data);
   };
 
-  const navLikeClick = () => {
-    // const path = "/liked-places";
-    // navigate(path);
-    setNavLikeClicked(true);
   };
   const navHomeClick = () => {
     const path = "/";
@@ -159,24 +141,56 @@ const HomePage = ({ coffeePlaces, loading }) => {
                 Home
               </Nav.Link>
               <Nav.Link
-                onClick={navLikeClick}
-                className="navbar-righttabs-icons"
+                onClick={user ? navLikeClick : null}
+                className="navbar-righttabs-icons navbar-liked-icon"
+                // disabled={user ? false : true}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-heart"
-                >
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                </svg>
-                Liked
+                {!user ? (
+                  <OverlayTrigger
+                    placement="bottom"
+                    overlay={
+                      <Tooltip id="tooltip-bottom">
+                        Please SignIn to check Liked Places
+                      </Tooltip>
+                    }
+                  >
+                    <div variant="secondary">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="feather feather-heart"
+                      >
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                      </svg>
+                      Liked
+                    </div>
+                  </OverlayTrigger>
+                ) : (
+                  <div variant="secondary">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-heart"
+                    >
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    Liked
+                  </div>
+                )}
               </Nav.Link>
               <Nav.Link href="#action2" className="navbar-righttabs-icons">
                 <svg
@@ -231,7 +245,6 @@ const HomePage = ({ coffeePlaces, loading }) => {
           <Nav.Link onClick={getMapView}>View All Places in Map</Nav.Link>
         </Nav.Item>
       </Nav>
-
       {navLikeClicked ? (
         <LikedPlaces coffeePlaces={coffeePlaces} />
       ) : !mapView ? (

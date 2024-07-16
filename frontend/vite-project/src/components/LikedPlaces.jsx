@@ -6,9 +6,12 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Card from "react-bootstrap/esm/Card";
 import axios from "axios";
+import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 
 const LikedPlaces = ({ coffeePlaces }) => {
   const [likedPlaces, setLikedPlaces] = useState([{}]);
+
+  const { user } = useContext(PlaceMenuContext);
 
   useEffect(() => {
     const allLikedPlaces = coffeePlaces.filter((place) => {
@@ -17,34 +20,10 @@ const LikedPlaces = ({ coffeePlaces }) => {
     setLikedPlaces(allLikedPlaces);
   }, []);
 
-  const serverPostAllLikedPlacees = async () => {
-    const result = await fetch("/api/places/liked", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(likedPlaces),
-    });
 
-    const data = await result.json();
-    console.log(data);
-
-    // const res = await result.json();
-    // console.log(res);
-
-    // axios
-    //   .post("/api/places/liked", {
-    //     name: "ish",
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //     console.log("hi");
-    //   });
-  };
-
-  const click = () => {
-    serverPostAllLikedPlacees();
-  };
+  //   const data = await result.json();
+  //   console.log(data);
+  // };
 
   return (
     <>
@@ -122,7 +101,6 @@ const LikedPlaces = ({ coffeePlaces }) => {
           )}
         </Row>
       </Container>
-
       <button onClick={click}>click</button>
     </>
   );

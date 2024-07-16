@@ -22,6 +22,7 @@ const UserSignUp = () => {
       body: JSON.stringify({ userName, password, email }),
     });
     setUser(userName);
+    localStorage.setItem("user", JSON.stringify(user));
     signinHandle();
   };
 
@@ -32,7 +33,11 @@ const UserSignUp = () => {
 
   return (
     <>
-      <form action="/" className="user-signin-form" onSubmit={signUpFormHandle}>
+      <form
+        action="/user/sign-in"
+        className="user-signin-form"
+        onSubmit={signUpFormHandle}
+      >
         <div class="form">
           <div class="title">Welcome</div>
           <div class="subtitle">Let's create your account!</div>
