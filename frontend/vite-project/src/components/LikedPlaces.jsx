@@ -20,10 +20,22 @@ const LikedPlaces = ({ coffeePlaces }) => {
     setLikedPlaces(allLikedPlaces);
   }, []);
 
-
   //   const data = await result.json();
   //   console.log(data);
   // };
+
+  const click = async () => {
+    const result = await fetch("/api/places/liked", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ likedPlaces, user }),
+    });
+
+    const data = await result.json();
+    console.log(data);
+  };
 
   return (
     <>

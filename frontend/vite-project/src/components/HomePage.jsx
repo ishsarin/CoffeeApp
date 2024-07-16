@@ -69,12 +69,14 @@ const HomePage = ({ coffeePlaces, loading }) => {
     // });
     // console.log(data);
   };
-
-  };
   const navHomeClick = () => {
     const path = "/";
     setNavLikeClicked(false);
     navigate(path);
+  };
+
+  const navLikeClick = () => {
+    setNavLikeClicked(!navLikeClicked);
   };
 
   const navAccountClick = () => {
