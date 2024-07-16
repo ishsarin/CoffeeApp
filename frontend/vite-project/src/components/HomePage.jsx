@@ -18,7 +18,10 @@ import MapboxMap from "./MapboxMap";
 import LikedPlaces from "./LikedPlaces";
 
 const HomePage = ({ coffeePlaces, loading }) => {
+  let { user, setUser } = useContext(PlaceMenuContext);
+
   //usestate
+
   const [val, setVal] = useState("");
   const [likedPlaces, setLikedPlaces] = useState([{}]);
   const [likeClicked, setLikeClicked] = useState(false);
@@ -213,7 +216,7 @@ const HomePage = ({ coffeePlaces, loading }) => {
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                Account
+                {user ? user : "Account"}
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import UserSignIn from "./UserSignIn";
 import { useNavigate } from "react-router-dom";
+import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 
 const UserSignUp = () => {
   const navigate = useNavigate();
-
+  const { user, setUser } = useContext(PlaceMenuContext);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -20,6 +21,8 @@ const UserSignUp = () => {
       },
       body: JSON.stringify({ userName, password, email }),
     });
+    setUser(userName);
+    signinHandle();
   };
 
   const signinHandle = () => {

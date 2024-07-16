@@ -1,11 +1,16 @@
 import React from "react";
 import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
-
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 const UserSignIn = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(true);
+  const { user, setUser } = useContext(PlaceMenuContext);
+
+  const naviagte = useNavigate();
 
   const signInFormHandle = async (e) => {
     e.preventDefault();
@@ -26,7 +31,9 @@ const UserSignIn = () => {
 
       const user = await res.json();
       console.log("User signed in:", user);
-      window.location.href = "/";
+      setUser(userName);
+      // window.location.href = "/";
+      naviagte("/");
     } catch (error) {
       setShow(false);
       console.log("User not found");
