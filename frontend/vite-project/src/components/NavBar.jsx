@@ -44,6 +44,10 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
     navigate(path);
   };
 
+  const navAddLocationClick = () => {
+    navigate("/new/add-location");
+  };
+
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary navbar-wrapper">
@@ -154,7 +158,10 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
                   </div>
                 )}
               </Nav.Link>
-              <Nav.Link href="#action2" className="navbar-righttabs-icons">
+              <Nav.Link
+                onClick={navAddLocationClick}
+                className="navbar-righttabs-icons"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"

@@ -256,3 +256,13 @@ body {
 .error-alert {
   margin-bottom: 0px !important;
 }
+.addlocation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &-wrapper div {
+    padding-block: 10px;
+  }
+}

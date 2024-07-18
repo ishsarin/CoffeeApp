@@ -13,10 +13,11 @@ const MapboxMap = ({ coffeePlaces }) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const newMarkers = coffeePlaces.filter(
-      (place) => place.detail !== 0 && place.latitude && place.longitude
-    );
-    setMarkers(newMarkers);
+    // const newMarkers = coffeePlaces.filter(
+    //   (place) => place.detail !== 0 && place.latitude && place.longitude
+    // );
+    // setMarkers(newMarkers);
+    setMarkers(coffeePlaces);
   }, []);
 
   return (
@@ -38,22 +39,22 @@ const MapboxMap = ({ coffeePlaces }) => {
         {markers.map((place) => (
           <>
             <Marker
-              longitude={place.longitude}
-              latitude={place.latitude}
+              longitude={place.long}
+              latitude={place.lat}
               className="marker"
               onClick={() => setShow(!show)}
             ></Marker>
             {show ? (
               <Popup
-                longitude={place.longitude}
-                latitude={place.latitude}
+                longitude={place.long}
+                latitude={place.lat}
                 anchor="top"
                 onClose={() => setShowPopup(showPopup)}
                 closeOnClick={false}
               >
                 <div className="popup-wrapper">
                   <h5 className="popup-name">{place.name}</h5>
-                  <address className="popup-address">{place.address}</address>
+                  {/* <address className="popup-address">{place.address}</address> */}
                 </div>
               </Popup>
             ) : (

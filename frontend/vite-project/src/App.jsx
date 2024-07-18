@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LikedPlaces from "./components/LikedPlaces";
 import UserSignIn from "./components/UserSignIn";
 import UserSignUp from "./components/UserSignUp";
+import AddLocation from "./components/AddLocation";
 function App() {
   const [loading, setLoading] = useState(false);
   const [coffeePlaces, setCoffeePlaces] = useState([{}]);
@@ -38,6 +39,7 @@ function App() {
           <Route path="/user/sign-up" element={<UserSignUp />} />
           <Route path="/user/sign-in" element={<UserSignIn />} />
           <Route path="/liked-places" element={<LikedPlaces />} />
+          <Route path="//new/add-location" element={<AddLocation />} />
         </Routes>
       </BrowserRouter>
     </>
