@@ -55,8 +55,8 @@ const LikedPlaces = ({ coffeePlaces }) => {
                       <Card.Img
                         variant="top"
                         src={
-                          data.photo
-                            ? data.photo.images.large.url
+                          data.image
+                            ? data.image
                             : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY="
                         }
                         height={200}
