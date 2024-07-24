@@ -9,7 +9,7 @@ import axios from "axios";
 import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 
 const LikedPlaces = ({ coffeePlaces }) => {
-  const [likedPlaces, setLikedPlaces] = useState([{}]);
+  const [likedPlaces, setLikedPlaces] = useState([]);
 
   const { user } = useContext(PlaceMenuContext);
 
@@ -18,24 +18,33 @@ const LikedPlaces = ({ coffeePlaces }) => {
   // };
 
   useEffect(() => {
-    const allLikedPlaces = coffeePlaces.filter((place) => {
-      return place.liked === true;
-    });
-    setLikedPlaces(allLikedPlaces);
+    try {
+      axios
+        .get(`/api/user/liked-places`, {
+          params: {
+            user: user,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setLikedPlaces(response.data);
+          // navigate("/liked-places");
+        });
+    } catch (error) {
+      console.log("Error", error);
+    }
   }, []);
+
   return (
     <>
-      {likedPlaces ? (
+      {likedPlaces.length > 0 ? (
         <Container>
           <Row className="coffeePlaces-wrapper">
             {likedPlaces.map((data) =>
               data.detail === "0" ? null : (
                 <Col md={3} className="coffeePlaces-card-wrapper" key={data.id}>
                   <Card style={{ width: "18rem", border: "none" }}>
-                    <div
-                      className="coffeePlaces-like-btn"
-                      onClick={() => likeClickHandler(data)}
-                    >
+                    <div className="coffeePlaces-like-btn">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -51,7 +60,7 @@ const LikedPlaces = ({ coffeePlaces }) => {
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                       </svg>
                     </div>
-                    <div onClick={() => coffeePlacesClickHandler(data)}>
+                    <div>
                       <Card.Img
                         variant="top"
                         src={

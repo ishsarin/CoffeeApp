@@ -97,30 +97,47 @@ app.get("/api/homepage", async (req, res) => {
   // }
 });
 
+app.get("/api/user/liked-places", async (req, res) => {
+  // res.send("hello this is liked places");
+  console.log(req.query.user);
+
+  const likedPlacesfromDB = await User.findOne({
+    name: req.query.user,
+  });
+  // console.log(likedPlacesfromDB.likedPlaces);
+  res.send(likedPlacesfromDB.likedPlaces);
+});
+
 app.post("/api/places/liked", async (req, res) => {
   const likedPlacesData = req.body;
-  console.log(likedPlacesData.likedPlaces);
+  console.log(likedPlacesData);
+  // console.log(likedPlacesData.likedPlaces);
 
   for (let i = 0; i < likedPlacesData.likedPlaces.length; i++) {
-    const user = await User.findOneAndUpdate(
-      { name: likedPlacesData.user },
-      {
-        $push: {
-          likedPlaces: {
-            name: likedPlacesData.likedPlaces[i].name,
-            rating: likedPlacesData.likedPlaces[i].rating,
-            image:
-              likedPlacesData.likedPlaces[i].photo.images.large.url ||
-              "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY=",
-            long: likedPlacesData.likedPlaces[i].longitude,
-            lat: likedPlacesData.likedPlaces[i].latitude,
+    let place = likedPlacesData.likedPlaces[i];
+
+    // Check if required fields are present
+    if (place.name && place.rating && place.long && place.lat) {
+      const user = await User.findOneAndUpdate(
+        { name: likedPlacesData.user },
+        {
+          $push: {
+            likedPlaces: {
+              name: place.name,
+              rating: place.rating,
+              image: place.image
+                ? place.image
+                : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY=",
+              long: place.longitude,
+              lat: place.latitude,
+            },
           },
         },
-      },
-      { new: true }
-    );
-    user.save();
-    console.log(user);
+        { new: true }
+      );
+      await user.save();
+      // console.log(user);
+    }
   }
 });
 

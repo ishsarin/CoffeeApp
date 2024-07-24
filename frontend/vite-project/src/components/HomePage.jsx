@@ -77,14 +77,18 @@ const HomePage = ({ coffeePlaces, loading }) => {
         navLikeClicked={navLikeClicked}
         coffeePlaces={coffeePlaces}
       />
-      <Nav fill variant="tabs">
-        <Nav.Item>
-          <Nav.Link onClick={getTabView}>View in Tabular Form</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link onClick={getMapView}>View All Places in Map</Nav.Link>
-        </Nav.Item>
-      </Nav>
+      {!navLikeClicked ? (
+        <Nav fill variant="tabs">
+          <Nav.Item>
+            <Nav.Link onClick={getTabView}>View in Tabular Form</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={getMapView}>View All Places in Map</Nav.Link>
+          </Nav.Item>
+        </Nav>
+      ) : (
+        ""
+      )}
       {navLikeClicked ? (
         <LikedPlaces coffeePlaces={coffeePlaces} />
       ) : !mapView ? (

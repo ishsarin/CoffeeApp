@@ -38,8 +38,7 @@ function App() {
           <Route path="/liked-places" element={<LikedPlaces />} />
           <Route path="/user/sign-up" element={<UserSignUp />} />
           <Route path="/user/sign-in" element={<UserSignIn />} />
-          <Route path="/liked-places" element={<LikedPlaces />} />
-          <Route path="//new/add-location" element={<AddLocation />} />
+          <Route path="/new/add-location" element={<AddLocation />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -10,6 +10,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
   const { user, setUser } = useContext(PlaceMenuContext);
   const [likedPlaces, setLikedPlaces] = useState([{}]);
@@ -23,22 +24,8 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
   };
 
   const navLikeClick = async () => {
-    setNavLikeClicked(!navLikeClicked);
-
-    const result = await fetch("/api/places/liked", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ likedPlaces, user }),
-    });
-
-    const data = await result.json();
-    console.log(data);
-
-    // navigate("/liked-places");
+    setNavLikeClicked(true);
   };
-
   const navAccountClick = () => {
     const path = "/user/sign-up";
     navigate(path);
@@ -47,6 +34,30 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
   const navAddLocationClick = () => {
     navigate("/new/add-location");
   };
+
+  useEffect(() => {
+    const allLikedPlaces = coffeePlaces.filter((place) => place.liked === true);
+    setLikedPlaces(allLikedPlaces);
+  }, [coffeePlaces]);
+  useEffect(() => {
+    const fetchLikedPlaces = async () => {
+      console.log(likedPlaces);
+      const result = await fetch("/api/places/liked", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ likedPlaces, user }),
+      });
+      // navigate("/liked-places");
+      const data = await result.json();
+      console.log(data);
+    };
+
+    if (likedPlaces.length > 0) {
+      fetchLikedPlaces();
+    }
+  }, [likedPlaces, user]);
 
   return (
     <>
@@ -116,7 +127,7 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
                     placement="bottom"
                     overlay={
                       <Tooltip id="tooltip-bottom">
-                        SignIn to check Liked Places
+                        Signin to check Liked Places
                       </Tooltip>
                     }
                   >
@@ -159,27 +170,61 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
                 )}
               </Nav.Link>
               <Nav.Link
-                onClick={navAddLocationClick}
+                onClick={user ? navAddLocationClick : null}
                 className="navbar-righttabs-icons"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-plus-circle"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="16" />
-                  <line x1="8" y1="12" x2="16" y2="12" />
-                </svg>
-                Add Location
+                {!user ? (
+                  <OverlayTrigger
+                    placement="bottom"
+                    overlay={
+                      <Tooltip id="tooltip-bottom">
+                        Signin to add Location
+                      </Tooltip>
+                    }
+                  >
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="feather feather-plus-circle"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="16" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
+                      </svg>
+                      Add Location
+                    </div>
+                  </OverlayTrigger>
+                ) : (
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-plus-circle"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="16" />
+                      <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                    Add Location
+                  </div>
+                )}
               </Nav.Link>
+
               <Nav.Link
                 className="navbar-righttabs-icons"
                 onClick={navAccountClick}
