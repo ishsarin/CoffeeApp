@@ -113,8 +113,8 @@ app.post("/api/places/liked", async (req, res) => {
   console.log(likedPlacesData);
   // console.log(likedPlacesData.likedPlaces);
 
-  for (let i = 0; i < likedPlacesData.likedPlaces.length; i++) {
-    let place = likedPlacesData.likedPlaces[i];
+  for (let i = 0; i < likedPlacesData.liked.length; i++) {
+    let place = likedPlacesData.liked[i];
 
     // Check if required fields are present
     if (place.name && place.rating && place.long && place.lat) {

@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
   const { user, setUser } = useContext(PlaceMenuContext);
-  const [likedPlaces, setLikedPlaces] = useState([{}]);
+  const [likedPlaces, setLikedPlaces] = useState([]);
 
   const navigate = useNavigate();
 
@@ -34,31 +34,6 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
   const navAddLocationClick = () => {
     navigate("/new/add-location");
   };
-
-  useEffect(() => {
-    const allLikedPlaces = coffeePlaces.filter((place) => place.liked === true);
-    setLikedPlaces(allLikedPlaces);
-  }, [coffeePlaces]);
-  useEffect(() => {
-    const fetchLikedPlaces = async () => {
-      console.log(likedPlaces);
-      const result = await fetch("/api/places/liked", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ likedPlaces, user }),
-      });
-      // navigate("/liked-places");
-      const data = await result.json();
-      console.log(data);
-    };
-
-    if (likedPlaces.length > 0) {
-      fetchLikedPlaces();
-    }
-  }, [likedPlaces, user]);
-
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary navbar-wrapper">

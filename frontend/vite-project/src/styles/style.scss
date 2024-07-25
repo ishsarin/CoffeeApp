@@ -273,3 +273,19 @@ body {
     padding-block: 10px;
   }
 }
+.like-places-checkbox {
+  &-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+  margin-top: 0px !important;
+  &-header {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+.input-group-text {
+  padding: 0px !important;
+}
