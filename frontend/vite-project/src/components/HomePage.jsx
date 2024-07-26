@@ -33,7 +33,7 @@ const HomePage = ({ coffeePlaces, loading }) => {
   const [placeInfo, setPlaceInfo] = useState({});
   const [mapView, setMapView] = useState(false);
   const [likePlacesCheckBox, setLikePlacesCheckBox] = useState(false);
-  const [duplicatePlaces, setDuplicatePlaces] = useState([]);
+  const [duplicatePlaces, setDuplicatePlaces] = useState([{}]);
 
   const { coffeePlaceClicked, setCoffeePlaceClicked } =
     useContext(PlaceMenuContext);
@@ -100,22 +100,22 @@ const HomePage = ({ coffeePlaces, loading }) => {
         })
         .then((response) => {
           // console.log(response.data);
-          const res = response.data;
+          if (response === null) {
+            setDuplicatePlaces(coffeePlaces);
+          } else {
+            const res = response.data;
 
-          console.log(res);
+            // console.log(res);
 
-          const likedPlaceNames = res.map((likedplace) => likedplace.name);
+            const likedPlaceNames = res.map((likedplace) => likedplace.name);
 
-          const filteredPlaces = coffeePlaces.filter((place) => {
-            return !likedPlaceNames.includes(place.name);
-          });
+            const filteredPlaces = coffeePlaces.filter((place) => {
+              return !likedPlaceNames.includes(place.name);
+            });
 
-          console.log(filteredPlaces);
-          setDuplicatePlaces(filteredPlaces);
-          // for (let i = 0; i < likedplaces.length; i++) {
-          //   likedplaces[i].liked = true;
-          // }
-          // console.log(likedplaces);
+            console.log(filteredPlaces);
+            setDuplicatePlaces(filteredPlaces);
+          }
         });
     } catch (error) {
       console.log("Error", error);

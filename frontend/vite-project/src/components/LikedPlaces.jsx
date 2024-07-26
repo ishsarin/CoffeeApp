@@ -8,14 +8,49 @@ import Card from "react-bootstrap/esm/Card";
 import axios from "axios";
 import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 
+import InputGroup from "react-bootstrap/InputGroup";
 const LikedPlaces = ({ coffeePlaces }) => {
+  const [likePlacesCheckBox, setLikePlacesCheckBox] = useState(false);
+
   const [likedPlaces, setLikedPlaces] = useState([]);
+
+  const [likeBtn, setLikeBtn] = useState(true);
 
   const { user } = useContext(PlaceMenuContext);
 
   //   const data = await result.json();
   //   console.log(data);
   // };
+
+  const removeLikedPlacesClickHandler = async () => {
+    // console.log(likedPlaces);
+    const placesRemoved = likedPlaces.filter((place) => {
+      return place.liked != true;
+    });
+    console.log(placesRemoved);
+
+    try {
+      const res = await fetch("/api/user/removed/places", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(placesRemoved),
+      });
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
+  const checkBoxClickHandler = () => {
+    setLikePlacesCheckBox(!likePlacesCheckBox);
+  };
+
+  const likedBtnClickHandler = (data) => {
+    setLikeBtn(!likeBtn);
+    data.liked = !data.liked;
+    console.log(data);
+  };
 
   useEffect(() => {
     try {
@@ -26,8 +61,11 @@ const LikedPlaces = ({ coffeePlaces }) => {
           },
         })
         .then((response) => {
-          console.log(response.data);
-          setLikedPlaces(response.data);
+          const newLikedPlaces = response.data.map((place) => {
+            return { ...place, liked: true };
+          });
+          console.log(newLikedPlaces);
+          setLikedPlaces(newLikedPlaces);
           // navigate("/liked-places");
         });
     } catch (error) {
@@ -40,26 +78,52 @@ const LikedPlaces = ({ coffeePlaces }) => {
       {likedPlaces.length > 0 ? (
         <Container>
           <Row className="coffeePlaces-wrapper">
+            <div className="like-places-checkbox-header">
+              <h5 className="like-places-checkbox-wrapper">
+                <InputGroup.Checkbox
+                  className="like-places-checkbox"
+                  onClick={checkBoxClickHandler}
+                />
+                Remove Liked Places
+              </h5>
+              {likePlacesCheckBox ? (
+                <button
+                  className="btn btn-primary"
+                  onClick={removeLikedPlacesClickHandler}
+                >
+                  remove liked places
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
             {likedPlaces.map((data) =>
               data.detail === "0" ? null : (
                 <Col md={3} className="coffeePlaces-card-wrapper" key={data.id}>
                   <Card style={{ width: "18rem", border: "none" }}>
-                    <div className="coffeePlaces-like-btn">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill={data.liked ? "rgb(0, 59, 64)" : "none"}
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-heart"
+                    {likePlacesCheckBox ? (
+                      <div
+                        className="coffeePlaces-like-btn"
+                        onClick={() => likedBtnClickHandler(data)}
                       >
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                      </svg>
-                    </div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill={data.liked ? "rgb(0, 59, 64)" : "none"}
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="feather feather-heart"
+                        >
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                      </div>
+                    ) : (
+                      ""
+                    )}
                     <div>
                       <Card.Img
                         variant="top"

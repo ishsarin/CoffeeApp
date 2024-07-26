@@ -104,8 +104,8 @@ app.get("/api/user/liked-places", async (req, res) => {
   const likedPlacesfromDB = await User.findOne({
     name: req.query.user,
   });
-  // console.log(likedPlacesfromDB.likedPlaces);
-  res.send(likedPlacesfromDB.likedPlaces);
+  console.log(likedPlacesfromDB);
+  res.send(likedPlacesfromDB === null ? null : likedPlacesfromDB.likedPlaces);
 });
 
 app.post("/api/places/liked", async (req, res) => {
@@ -118,7 +118,7 @@ app.post("/api/places/liked", async (req, res) => {
 
     // Check if required fields are present
     if (place.name && place.rating && place.long && place.lat) {
-      const user = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { name: likedPlacesData.user },
         {
           $push: {
@@ -135,7 +135,6 @@ app.post("/api/places/liked", async (req, res) => {
         },
         { new: true }
       );
-      await user.save();
       // console.log(user);
     }
   }
@@ -170,6 +169,17 @@ app.post("/api/user/signup", async (req, res) => {
     password: userDetails.password,
   });
   newUser.save();
+});
+
+app.post("/api/user/removed/places", async (req, res) => {
+  const removedPlaces = req.body;
+  console.log(removedPlaces);
+
+  for (let i = 0; i < removedPlaces.length; i++) {
+    await User.deleteMany({
+      id: removedPlaces[i].id,
+    });
+  }
 });
 
 app.post("/api/new-location", async (req, res) => {
