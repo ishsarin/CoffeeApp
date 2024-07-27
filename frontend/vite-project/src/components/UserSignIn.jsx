@@ -42,6 +42,10 @@ const UserSignIn = () => {
     }
   };
 
+  const signupHandle = () => {
+    naviagte("/user/sign-up");
+  };
+
   return (
     <>
       {!show ? (
@@ -94,6 +98,9 @@ const UserSignIn = () => {
           <button type="text" class="submit">
             Submit
           </button>
+        </div>
+        <div className="user-signin" onClick={signupHandle}>
+          Don't have an account? SignUp
         </div>
       </form>
     </>

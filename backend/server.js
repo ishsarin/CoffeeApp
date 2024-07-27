@@ -174,11 +174,17 @@ app.post("/api/user/signup", async (req, res) => {
 app.post("/api/user/removed/places", async (req, res) => {
   const removedPlaces = req.body;
   console.log(removedPlaces);
-
-  for (let i = 0; i < removedPlaces.length; i++) {
-    await User.deleteMany({
-      id: removedPlaces[i].id,
-    });
+  for (let i = 0; i < removedPlaces.placesRemoved.length; i++) {
+    await User.updateOne(
+      {
+        id: removedPlaces.placesRemoved[i].id,
+      },
+      {
+        $pull: {
+          likedPlaces: { nid: removedPlaces.placesRemoved[i].id },
+        },
+      }
+    );
   }
 });
 

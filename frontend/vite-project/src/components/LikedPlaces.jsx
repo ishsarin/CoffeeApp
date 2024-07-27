@@ -22,6 +22,11 @@ const LikedPlaces = ({ coffeePlaces }) => {
   //   console.log(data);
   // };
 
+  const removeLikedPlaces = async () => {
+    removeLikedPlacesClickHandler();
+    window.location.href = "/";
+  };
+
   const removeLikedPlacesClickHandler = async () => {
     // console.log(likedPlaces);
     const placesRemoved = likedPlaces.filter((place) => {
@@ -35,7 +40,7 @@ const LikedPlaces = ({ coffeePlaces }) => {
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(placesRemoved),
+        body: JSON.stringify({ placesRemoved }),
       });
     } catch (error) {
       console.log("Error: ", error);
@@ -87,10 +92,7 @@ const LikedPlaces = ({ coffeePlaces }) => {
                 Remove Liked Places
               </h5>
               {likePlacesCheckBox ? (
-                <button
-                  className="btn btn-primary"
-                  onClick={removeLikedPlacesClickHandler}
-                >
+                <button className="btn btn-primary" onClick={removeLikedPlaces}>
                   remove liked places
                 </button>
               ) : (
