@@ -32,7 +32,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/api/homepage"
+            path="/"
             element={<HomePage coffeePlaces={coffeePlaces} loading={loading} />}
           />
           <Route path="/liked-places" element={<LikedPlaces />} />
