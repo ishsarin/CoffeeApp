@@ -124,7 +124,7 @@ const CoffeePlaceMenu = ({ placeInfo }) => {
                         <Card.Title
                           style={{
                             fontWeight: "900",
-                            color: "rgb(0, 59,64)",
+                            color: "#6a704c",
                           }}
                         >
                           {data.title}
@@ -169,7 +169,7 @@ const CoffeePlaceMenu = ({ placeInfo }) => {
                         <Card.Title
                           style={{
                             fontWeight: "900",
-                            color: "rgb(0, 59,64)",
+                            color: "#6a704c !important",
                           }}
                         >
                           {data.title}

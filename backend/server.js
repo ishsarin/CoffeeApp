@@ -3,7 +3,10 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-
+const ENV = require("dotenv").config();
+const process = require("process");
+const travelapikey = process.env.X_RAPID_API_KEY;
+const mongodbpassword = process.env.MONGODB_PASSWORD;
 const placeSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -74,7 +77,7 @@ app.get("/api/homepage", async (req, res) => {
   // const options = {
   //   method: "GET",
   //   headers: {
-  //     "x-rapidapi-key": "9249316e6bmsh87cd3ad4dd32527p1b162cjsndfe173a02884",
+  //       "x-rapidapi-key": ${travelapikey},
   //     "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
   //     "Content-Type": "application/json",
   //   },
@@ -242,7 +245,7 @@ app.listen("3000", () => {
 try {
   mongoose
     .connect(
-      "mongodb+srv://sarinish2000:mQpTSItv3haLhc4B@cluster0.cpqmiij.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+      `mongodb+srv://${mongodbpassword}.cpqmiij.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
     )
     .then(() => console.log("Connected to MongoDB!"));
 } catch (error) {
