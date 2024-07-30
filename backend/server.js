@@ -7,6 +7,7 @@ const ENV = require("dotenv").config();
 const process = require("process");
 const travelapikey = process.env.X_RAPID_API_KEY;
 const mongodbpassword = process.env.MONGODB_PASSWORD;
+const PORT = process.env.PORT || 3000;
 const placeSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -238,8 +239,8 @@ app.post("/api/new-location", async (req, res) => {
   newLocation.save();
 });
 
-app.listen("3000", () => {
-  console.log("backend is running");
+app.listen(PORT, () => {
+  console.log(`backend is running on port:${PORT}`);
 });
 
 try {
