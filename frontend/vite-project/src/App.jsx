@@ -18,11 +18,11 @@ function App() {
     axios.get("/api/homepage").then((response) => {
       setLoading(!loading);
 
-      console.log(response.data);
-      // const newData = response.map((place) => {
-      //   const newObj = { ...place, liked: false };
-      //   return newObj;
-      // });
+      // console.log(response.data);
+      const newData = response.data.map((place) => {
+        const newObj = { ...place, liked: false };
+        return newObj;
+      });
       setCoffeePlaces(newData);
     });
   };
@@ -32,7 +32,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/"
+            path="/api/homepage"
             element={<HomePage coffeePlaces={coffeePlaces} loading={loading} />}
           />
           <Route path="/liked-places" element={<LikedPlaces />} />
