@@ -239,11 +239,10 @@ app.post("/api/new-location", async (req, res) => {
   newLocation.save();
 });
 
-app.listen(PORT, () => {
-  console.log(`backend is running on port:${PORT}`);
-});
-
 try {
+  app.listen(PORT, () => {
+    console.log(`backend is running on port:${PORT}`);
+  });
   mongoose
     .connect(`${mongodbpassword}?retryWrites=true&w=majority&appName=Cluster0`)
     .then(() => console.log("Connected to MongoDB!"));
