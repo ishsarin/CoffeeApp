@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const ENV = require("dotenv").config();
 const process = require("process");
 const travelapikey = process.env.X_RAPID_API_KEY;
-const mongodbpassword = process.env.MONGODB_PASSWORD;
+const mongodbpassword = process.env.MONGODB;
 const PORT = process.env.PORT || 3000;
 const placeSchema = new mongoose.Schema({
   name: {
@@ -245,9 +245,7 @@ app.listen(PORT, () => {
 
 try {
   mongoose
-    .connect(
-      `mongodb+srv://${mongodbpassword}.cpqmiij.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
-    )
+    .connect(`${mongodbpassword}?retryWrites=true&w=majority&appName=Cluster0`)
     .then(() => console.log("Connected to MongoDB!"));
 } catch (error) {
   console.log("Error connecting to MongoDB", error);
