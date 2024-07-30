@@ -19,7 +19,7 @@ function App() {
       setLoading(!loading);
 
       // console.log(response.data);
-      const newData = response.data.map((place) => {
+      const newData = response.map((place) => {
         const newObj = { ...place, liked: false };
         return newObj;
       });
