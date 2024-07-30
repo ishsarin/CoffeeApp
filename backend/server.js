@@ -72,57 +72,54 @@ const User = mongoose.model("user", userSchema);
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get(
-  "https://coffeeapp-a1t9.onrender.com/api/homepage/api/homepage",
-  async (req, res) => {
-    // const url =
-    //   "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude=12.91285&longitude=100.87808&limit=30&currency=USD&distance=2&open_now=false&lunit=km&lang=en_US";
-    // const options = {
-    //   method: "GET",
-    //   headers: {
-    //       "x-rapidapi-key": ${travelapikey},
-    //     "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
-    //     "Content-Type": "application/json",
-    //   },
-    // };
+app.get("/api/homepage", async (req, res) => {
+  // const url =
+  //   "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng?latitude=12.91285&longitude=100.87808&limit=30&currency=USD&distance=2&open_now=false&lunit=km&lang=en_US";
+  // const options = {
+  //   method: "GET",
+  //   headers: {
+  //       "x-rapidapi-key": ${travelapikey},
+  //     "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
+  //     "Content-Type": "application/json",
+  //   },
+  // };
 
-    const data = await Place.find({});
-    console.log(data);
-    res.send(data);
+  const data = await Place.find({});
+  console.log(data);
+  res.send(data);
 
-    // try {
-    //   const response = await fetch(url, options);
-    //   const result = await response.json();
-    //   // console.log(result.data);
-    //   res.send(result.data);
+  // try {
+  //   const response = await fetch(url, options);
+  //   const result = await response.json();
+  //   // console.log(result.data);
+  //   res.send(result.data);
 
-    //   //adding data to mongodb database only once
+  //   //adding data to mongodb database only once
 
-    //   const newPlaceData = result.data;
-    //   console.log(newPlaceData.address);
+  //   const newPlaceData = result.data;
+  //   console.log(newPlaceData.address);
 
-    //   for (let i = 0; i < newPlaceData.length; i++) {
-    //     if (newPlaceData[i].detail === "0") continue;
+  //   for (let i = 0; i < newPlaceData.length; i++) {
+  //     if (newPlaceData[i].detail === "0") continue;
 
-    //     let newPlace = await Place.create({
-    //       name: newPlaceData[i].name,
-    //       rating: newPlaceData[i].rating,
-    //       image: newPlaceData[i].photo
-    //         ? newPlaceData[i].photo.images.large.url
-    //         : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY=",
-    //       long: newPlaceData[i].longitude,
-    //       lat: newPlaceData[i].latitude,
-    //       address: newPlaceData[i].address,
-    //       phone: newPlaceData[i].phone,
-    //     });
+  //     let newPlace = await Place.create({
+  //       name: newPlaceData[i].name,
+  //       rating: newPlaceData[i].rating,
+  //       image: newPlaceData[i].photo
+  //         ? newPlaceData[i].photo.images.large.url
+  //         : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY=",
+  //       long: newPlaceData[i].longitude,
+  //       lat: newPlaceData[i].latitude,
+  //       address: newPlaceData[i].address,
+  //       phone: newPlaceData[i].phone,
+  //     });
 
-    //     console.log(newPlace);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  }
-);
+  //     console.log(newPlace);
+  //   }
+  // } catch (error) {
+  //   console.error(error);
+  // }
+});
 
 app.get("/api/user/liked-places", async (req, res) => {
   // res.send("hello this is liked places");
