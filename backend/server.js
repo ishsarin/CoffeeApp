@@ -85,6 +85,7 @@ app.get("/api/homepage", async (req, res) => {
   // };
 
   const data = await Place.find({});
+  console.log(data);
   res.send(data);
 
   // try {
