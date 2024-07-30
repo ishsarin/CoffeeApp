@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       // "/api": "http://localhost:3000",
-      "/api": "https://brew-bite.vercel.app",
+      "/api": "https://coffeeapp-a1t9.onrender.com",
     },
   },
 
