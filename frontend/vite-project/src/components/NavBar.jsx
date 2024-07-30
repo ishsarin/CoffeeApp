@@ -11,9 +11,13 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import logo from "../media/logo.png";
+
 const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
   const { user, setUser } = useContext(PlaceMenuContext);
   const [likedPlaces, setLikedPlaces] = useState([]);
+
+  const [searchVal, setSearchVal] = useState("");
 
   const navigate = useNavigate();
 
@@ -34,20 +38,42 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
   const navAddLocationClick = () => {
     navigate("/new/add-location");
   };
+
+  const searchBar = (e) => {
+    e.preventDefault();
+    let searchValue = document.querySelector(".me-2");
+    let searchResult = coffeePlaces.filter((place) =>
+      place.name.toLowerCase().includes(searchValue.value.toLowerCase())
+    );
+    console.log(searchResult);
+  };
+
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary navbar-wrapper">
         <Container fluid className="navbar-container">
-          <Navbar.Brand href="#">COFFEE PLACE</Navbar.Brand>
+          <Navbar.Brand href="/" className="logo-wrapper">
+            <img
+              src={logo}
+              alt=""
+              className="logo"
+              srcset=""
+              height={90}
+              width={120}
+            />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll" className="navbar-searchtabs">
-            <Form className="d-flex searchbar mx-auto">
+            <Form
+              className="d-flex searchbar mx-auto"
+              onSubmit={(e) => searchBar(e)}
+            >
               <Form.Control
                 type="search"
-                placeholder="Search"
+                placeholder="Search for places"
                 className="me-2"
                 aria-label="Search"
-                onChange={(e) => setVal(e.target.value)}
+                // value={searchVal}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"

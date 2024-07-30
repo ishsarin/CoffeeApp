@@ -14,6 +14,8 @@ const MapboxMap = ({ coffeePlaces }) => {
 
   const [dist, setDist] = useState(0);
 
+  const [mode, setMode] = useState(0);
+
   const [show, setShow] = useState(false);
 
   const [currentLong, setCurrentLong] = useState(0);
@@ -23,6 +25,8 @@ const MapboxMap = ({ coffeePlaces }) => {
   const [popupLong, setPopUpLong] = useState(0);
   const [name, setName] = useState("");
   const [rating, setRating] = useState(0);
+  const [address, setAddress] = useState("");
+  const [number, setNumber] = useState("");
 
   useEffect(() => {
     // const newMarkers = coffeePlaces.filter(
@@ -51,6 +55,8 @@ const MapboxMap = ({ coffeePlaces }) => {
     setPopUpLong(e.target._lngLat.lng);
     setName(place.name);
     setRating(place.rating);
+    setNumber(place.phone);
+    setAddress(place.address);
     calcCrow(
       currentLat,
       currentLong,
@@ -88,13 +94,34 @@ const MapboxMap = ({ coffeePlaces }) => {
         }}
         mapboxAccessToken="pk.eyJ1IjoiaXNoc2FyaW4iLCJhIjoiY2x4a25oY2JrMDJ6YzJrcXV4cWEybjgyZSJ9.Ig4XsyEO50Op7hojgrY03Q"
         projection="globe"
-        mapStyle="mapbox://styles/mapbox/light-v11"
+        mapStyle={
+          mode % 2 === 0
+            ? "mapbox://styles/mapbox/dark-v11"
+            : "mapbox://styles/mapbox/light-v11"
+        }
         style={{ width: "100%", height: 700 }}
         // center={[currentLong, currentLat]}
       >
         <Marker longitude={currentLong} latitude={currentLat}>
           <img src={dot} className="curr-marker" />
         </Marker>
+        {show ? (
+          <Popup
+            longitude={currentLong}
+            latitude={currentLat}
+            anchor="top"
+            onClose={() => {
+              setShowPopup(showPopup);
+              setShow(!show);
+            }}
+            className="popup-header"
+            closeOnClick={false}
+          >
+            <div>current location</div>
+          </Popup>
+        ) : (
+          ""
+        )}
         {markers.map((place) => (
           <>
             <Marker
@@ -114,6 +141,7 @@ const MapboxMap = ({ coffeePlaces }) => {
               setShowPopup(showPopup);
               setShow(!show);
             }}
+            className="popup-header"
             closeOnClick={false}
           >
             <div className="popup-wrapper">
@@ -135,7 +163,11 @@ const MapboxMap = ({ coffeePlaces }) => {
                 </svg>
                 {rating}
               </h6>
-              <h6 className="popup-dist">Distance: {dist} km</h6>
+              <h6>
+                <address>{address}</address>
+              </h6>
+              <h6>{number}</h6>
+              <h7 className="popup-dist">Distance: {dist} km</h7>
               {/* <address className="popup-address">{place.address}</address> */}
             </div>
           </Popup>
@@ -143,6 +175,9 @@ const MapboxMap = ({ coffeePlaces }) => {
           ""
         )}
       </Map>
+      <button className="btn" onClick={() => setMode(mode + 1)}>
+        {mode % 2 === 0 ? "Light Mode" : "Dark Mode"}
+      </button>
     </div>
   );
 };

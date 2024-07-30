@@ -90,13 +90,19 @@ const CoffeePlaceMenu = ({ placeInfo }) => {
         </div>
         <Nav fill variant="tabs">
           <Nav.Item>
-            <Nav.Link onClick={getHotDrinksMenu}>Hot Beverages</Nav.Link>
+            <Nav.Link onClick={getHotDrinksMenu} className="nav-view-tab">
+              Hot Beverages
+            </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link onClick={getColdDrinksMenu}>Cold Beverages</Nav.Link>
+            <Nav.Link onClick={getColdDrinksMenu} className="nav-view-tab">
+              Cold Beverages
+            </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link onClick={getFoodMenu}>Food Menu</Nav.Link>
+            <Nav.Link onClick={getFoodMenu} className="nav-view-tab">
+              Food Menu
+            </Nav.Link>
           </Nav.Item>
         </Nav>
       </div>
@@ -171,8 +177,8 @@ const CoffeePlaceMenu = ({ placeInfo }) => {
 
                         <Card.Text className="beverages-ingredients">
                           <span>
-                            Cuisine:{""}
-                            {data.cuisine}
+                            Cuisine: {""}
+                            {data.cuisine === "" ? "Continental" : data.cuisine}
                           </span>
                         </Card.Text>
                       </Card.Body>

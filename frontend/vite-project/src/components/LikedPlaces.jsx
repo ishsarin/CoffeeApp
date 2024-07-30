@@ -25,6 +25,7 @@ const LikedPlaces = ({ coffeePlaces }) => {
   const removeLikedPlaces = async () => {
     removeLikedPlacesClickHandler();
     window.location.href = "/";
+    // navigate("/");
   };
 
   const removeLikedPlacesClickHandler = async () => {
@@ -92,7 +93,7 @@ const LikedPlaces = ({ coffeePlaces }) => {
                 Remove Liked Places
               </h5>
               {likePlacesCheckBox ? (
-                <button className="btn btn-primary" onClick={removeLikedPlaces}>
+                <button className="btn" onClick={removeLikedPlaces}>
                   remove liked places
                 </button>
               ) : (
@@ -101,7 +102,7 @@ const LikedPlaces = ({ coffeePlaces }) => {
             </div>
             {likedPlaces.map((data) =>
               data.detail === "0" ? null : (
-                <Col md={3} className="coffeePlaces-card-wrapper" key={data.id}>
+                <Col md={4} className="coffeePlaces-card-wrapper" key={data.id}>
                   <Card style={{ width: "18rem", border: "none" }}>
                     {likePlacesCheckBox ? (
                       <div
@@ -163,9 +164,15 @@ const LikedPlaces = ({ coffeePlaces }) => {
                             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                           </svg>
                           {data.rating}
-                          <span className="coffeePlaces-card-reviews">
+                          {/* <span className="coffeePlaces-card-reviews">
                             0 reviews
-                          </span>
+                          </span> */}
+                        </Card.Text>
+                        <address className="coffeePlaces-address">
+                          {data.address}
+                        </address>
+                        <Card.Text>
+                          Phone: {data.phone === "" ? "No Number" : data.phone}
                         </Card.Text>
                       </Card.Body>
                     </div>

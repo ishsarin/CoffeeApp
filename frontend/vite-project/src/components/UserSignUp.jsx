@@ -30,7 +30,11 @@ const UserSignUp = () => {
     const path = "/user/sign-in";
     navigate(path);
   };
-
+  const guestClick = () => {
+    setUser("");
+    navigate("/");
+    // window.location.href = "/";
+  };
   return (
     <>
       <form
@@ -81,12 +85,15 @@ const UserSignUp = () => {
             <div class="cut"></div>
           </div>
 
-          <button type="text" class="submit">
+          <button type="text" class="btn submit">
             Submit
           </button>
         </div>
         <div className="user-signin" onClick={signinHandle}>
           Already have an account? SignIn
+        </div>
+        <div className="user-signin" onClick={guestClick}>
+          Continue as Guest
         </div>
       </form>
     </>

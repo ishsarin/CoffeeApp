@@ -132,10 +132,14 @@ const HomePage = ({ coffeePlaces, loading }) => {
       {!navLikeClicked ? (
         <Nav fill variant="tabs">
           <Nav.Item>
-            <Nav.Link onClick={getTabView}>View in Tabular Form</Nav.Link>
+            <Nav.Link onClick={getTabView} className="nav-view-tab">
+              View in Tabular Form
+            </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link onClick={getMapView}>View All Places in Map</Nav.Link>
+            <Nav.Link onClick={getMapView} className="nav-view-tab">
+              View All Places in Map
+            </Nav.Link>
           </Nav.Item>
         </Nav>
       ) : (
@@ -147,38 +151,42 @@ const HomePage = ({ coffeePlaces, loading }) => {
         <div className="coffeePlaces-wrapper">
           {!coffeePlaceClicked ? (
             <div>
-              <div className="like-places-checkbox-header">
-                <h5 className="like-places-checkbox-wrapper">
-                  <InputGroup.Checkbox
-                    className="like-places-checkbox"
-                    onClick={() => {
-                      setLikePlacesCheckBox(!likePlacesCheckBox);
-                      getLikedPlacesFromDB();
-                    }}
-                  />
-                  Like Places
-                </h5>
-                {likePlacesCheckBox ? (
-                  <button
-                    className="btn btn-primary"
-                    onClick={likedPlacesClickHandler}
-                  >
-                    submit liked places
-                  </button>
-                ) : (
-                  ""
-                )}
-              </div>
-
               <Container>
                 <Row className="coffeePlaces-wrapper">
+                  {user ? (
+                    <div className="like-places-checkbox-header">
+                      <h5 className="like-places-checkbox-wrapper">
+                        <InputGroup.Checkbox
+                          className="like-places-checkbox"
+                          onClick={() => {
+                            setLikePlacesCheckBox(!likePlacesCheckBox);
+                            getLikedPlacesFromDB();
+                          }}
+                        />
+                        Like Places
+                      </h5>
+                      {likePlacesCheckBox ? (
+                        <button
+                          className="btn"
+                          onClick={likedPlacesClickHandler}
+                        >
+                          submit liked places
+                        </button>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
                   {!loading
                     ? "Loading..."
                     : likePlacesCheckBox
                     ? duplicatePlaces.map((data) =>
                         data.detail === "0" ? null : (
                           <Col
-                            md={3}
+                            md={4}
                             className="coffeePlaces-card-wrapper"
                             key={data.id}
                           >
@@ -219,8 +227,8 @@ const HomePage = ({ coffeePlaces, loading }) => {
                                       ? data.image
                                       : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY="
                                   }
-                                  height={200}
-                                  width={100}
+                                  height={250}
+                                  width={150}
                                   className="coffeePlaces-card-img"
                                 />
                                 <Card.Body>
@@ -248,9 +256,17 @@ const HomePage = ({ coffeePlaces, loading }) => {
                                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                                     </svg>
                                     {data.rating}
-                                    <span className="coffeePlaces-card-reviews">
-                                      0 reviews
-                                    </span>
+                                  </Card.Text>
+                                  {/* <Card.Text> */}
+                                  <address className="coffeePlaces-address">
+                                    {data.address}
+                                  </address>
+                                  {/* </Card.Text> */}
+                                  <Card.Text>
+                                    Phone:{" "}
+                                    {data.phone === undefined
+                                      ? "No Number"
+                                      : data.phone}
                                   </Card.Text>
                                 </Card.Body>
                               </div>
@@ -261,7 +277,7 @@ const HomePage = ({ coffeePlaces, loading }) => {
                     : coffeePlaces.map((data) =>
                         data.detail === "0" ? null : (
                           <Col
-                            md={3}
+                            md={4}
                             className="coffeePlaces-card-wrapper"
                             key={data.id}
                           >
@@ -302,20 +318,19 @@ const HomePage = ({ coffeePlaces, loading }) => {
                                       ? data.image
                                       : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY="
                                   }
-                                  height={200}
-                                  width={100}
+                                  height={230}
+                                  width={200}
                                   className="coffeePlaces-card-img"
                                 />
                                 <Card.Body>
                                   <Card.Title
                                     style={{
                                       fontWeight: "900",
-                                      color: "rgb(0, 59,64)",
                                     }}
                                   >
                                     {data.name}
                                   </Card.Title>
-                                  <Card.Text style={{ color: "rgb(0, 59,64)" }}>
+                                  <Card.Text>
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       width="14"
@@ -331,9 +346,20 @@ const HomePage = ({ coffeePlaces, loading }) => {
                                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                                     </svg>
                                     {data.rating}
-                                    <span className="coffeePlaces-card-reviews">
+                                    {/* <span className="coffeePlaces-card-reviews">
                                       0 reviews
-                                    </span>
+                                    </span> */}
+                                  </Card.Text>
+                                  <Card.Text>
+                                    <address className="coffeePlaces-address">
+                                      {data.address}
+                                    </address>
+                                  </Card.Text>
+                                  <Card.Text>
+                                    Phone:{" "}
+                                    {data.phone === undefined
+                                      ? "No Number"
+                                      : data.phone}
                                   </Card.Text>
                                 </Card.Body>
                               </div>

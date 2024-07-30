@@ -25,6 +25,14 @@ const placeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  address: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
 });
 
 const userSchema = new mongoose.Schema({
@@ -42,7 +50,15 @@ const userSchema = new mongoose.Schema({
   },
 
   likedPlaces: [
-    { name: String, rating: Number, image: String, long: Number, lat: Number },
+    {
+      name: String,
+      rating: Number,
+      image: String,
+      long: Number,
+      lat: Number,
+      address: String,
+      phone: String,
+    },
   ],
 });
 
@@ -75,23 +91,26 @@ app.get("/api/homepage", async (req, res) => {
 
   //   //adding data to mongodb database only once
 
-  //   // const newPlaceData = result.data;
+  //   const newPlaceData = result.data;
+  //   console.log(newPlaceData.address);
 
-  //   // for (let i = 0; i < newPlaceData.length; i++) {
-  //   //   if (newPlaceData[i].detail === "0") continue;
+  //   for (let i = 0; i < newPlaceData.length; i++) {
+  //     if (newPlaceData[i].detail === "0") continue;
 
-  //   //   let newPlace = await Place.create({
-  //   //     name: newPlaceData[i].name,
-  //   //     rating: newPlaceData[i].rating,
-  //   //     image: newPlaceData[i].photo
-  //   //       ? newPlaceData[i].photo.images.large.url
-  //   //       : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY=",
-  //   //     long: newPlaceData[i].longitude,
-  //   //     lat: newPlaceData[i].latitude,
-  //   //   });
+  //     let newPlace = await Place.create({
+  //       name: newPlaceData[i].name,
+  //       rating: newPlaceData[i].rating,
+  //       image: newPlaceData[i].photo
+  //         ? newPlaceData[i].photo.images.large.url
+  //         : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY=",
+  //       long: newPlaceData[i].longitude,
+  //       lat: newPlaceData[i].latitude,
+  //       address: newPlaceData[i].address,
+  //       phone: newPlaceData[i].phone,
+  //     });
 
-  //   //   console.log(newPlace);
-  //   // }
+  //     console.log(newPlace);
+  //   }
   // } catch (error) {
   //   console.error(error);
   // }
@@ -99,25 +118,31 @@ app.get("/api/homepage", async (req, res) => {
 
 app.get("/api/user/liked-places", async (req, res) => {
   // res.send("hello this is liked places");
-  console.log(req.query.user);
+  // console.log(req.query.user);
 
   const likedPlacesfromDB = await User.findOne({
     name: req.query.user,
   });
-  console.log(likedPlacesfromDB);
+  // console.log(likedPlacesfromDB);
   res.send(likedPlacesfromDB === null ? null : likedPlacesfromDB.likedPlaces);
 });
 
 app.post("/api/places/liked", async (req, res) => {
   const likedPlacesData = req.body;
-  console.log(likedPlacesData);
+  // console.log(likedPlacesData);
   // console.log(likedPlacesData.likedPlaces);
 
   for (let i = 0; i < likedPlacesData.liked.length; i++) {
     let place = likedPlacesData.liked[i];
 
     // Check if required fields are present
-    if (place.name && place.rating && place.long && place.lat) {
+    if (
+      place.name &&
+      place.rating &&
+      place.long &&
+      place.lat &&
+      place.address
+    ) {
       await User.findOneAndUpdate(
         { name: likedPlacesData.user },
         {
@@ -130,6 +155,8 @@ app.post("/api/places/liked", async (req, res) => {
                 : "https://media.istockphoto.com/id/478432824/photo/fashion-stylish-restaurant-interior.jpg?s=1024x1024&w=is&k=20&c=gg-myUsROTcLU8OhieMyEeZdcx_Def6qirnqwvQ56tY=",
               long: place.longitude,
               lat: place.latitude,
+              address: place.address,
+              phone: place.phone ? place.phone : "",
             },
           },
         },
@@ -146,10 +173,10 @@ app.post("/api/user/signin", async (req, res) => {
     const user = await User.findOne({ name: userName, password: password });
 
     if (user) {
-      console.log("User found");
+      // console.log("User found");
       res.send(user);
     } else {
-      console.log("User not found");
+      // console.log("User not found");
       // res.status(401).send({ error: "Invalid credentials" });
       res.send("Invalid credentials");
     }
@@ -181,7 +208,10 @@ app.post("/api/user/removed/places", async (req, res) => {
       },
       {
         $pull: {
-          likedPlaces: { nid: removedPlaces.placesRemoved[i].id },
+          likedPlaces: {
+            // id: removedPlaces.placesRemoved[i].id
+            name: removedPlaces.placesRemoved[i].name,
+          },
         },
       }
     );
@@ -189,9 +219,9 @@ app.post("/api/user/removed/places", async (req, res) => {
 });
 
 app.post("/api/new-location", async (req, res) => {
-  const { name, rating, lat, long, img } = req.body;
+  const { name, rating, lat, long, img, address, phone } = req.body;
 
-  console.log(img, name, rating, lat, long);
+  // console.log(img, name, rating, lat, long);
 
   const newLocation = new Place({
     name: name,
@@ -199,6 +229,8 @@ app.post("/api/new-location", async (req, res) => {
     image: img,
     long: long,
     lat: lat,
+    address: address,
+    phone: phone,
   });
   newLocation.save();
 });

@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Rating } from "react-simple-star-rating";
-
+import { Navigate, useNavigate } from "react-router-dom";
 const AddLocation = () => {
   const [rating, setRating] = useState(0);
   const [long, setLong] = useState(0);
@@ -10,15 +10,21 @@ const AddLocation = () => {
   const [name, setName] = useState("");
   const [img, setImg] = useState("");
 
+  const [locationClicked, setLocationClicked] = useState(false);
+
+  const [phone, setPhone] = useState("");
+
+  const [address, setAddress] = useState("");
+
   const handleRating = (rate) => {
     setRating(rate);
 
     // other logic
   };
 
-  const handleFormSubmit = async (e) => {
-    window.location.href = "/";
+  const navigate = useNavigate();
 
+  const handleFormSubmit = async (e) => {
     const res = await fetch("/api/new-location", {
       method: "POST",
       headers: {
@@ -30,6 +36,8 @@ const AddLocation = () => {
         long,
         lat,
         img,
+        address,
+        phone,
       }),
     });
     // e.preventDefault();
@@ -64,52 +72,101 @@ const AddLocation = () => {
 
     // console.log(location);
   };
+  const homepageClick = () => {
+    navigate("/");
+  };
   return (
     <div className="addlocation">
-      <form>
-        <div className="addlocation-wrapper">
-          <div>Welcome</div>
-          <div class="">Add the new Location</div>
-          <div class="">
-            <div className="addlocation-name">
-              <label htmlFor="">Name</label>
-              <input
-                type="text"
-                placeholder="Name of the Place"
-                required={true}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
+      <div className="addlocation-header">
+        <form
+          className="addlocation-form"
+          action="/"
+          onSubmit={(e) => {
+            handleFormSubmit(e);
+          }}
+        >
+          <div className="addlocation-wrapper">
+            <h2>Welcome</h2>
+            <h4 class="">Add new Location</h4>
+            <div class="addlocation-info">
+              <div className="addlocation-name">
+                <label htmlFor="">Name</label>
+                <input
+                  type="text"
+                  placeholder="Name of the Place"
+                  required={true}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+              </div>
+
+              <div className="addlocation-rating">
+                <label htmlFor="">Rating</label>
+                <Rating onClick={handleRating} />
+              </div>
+
+              <div className="addlocation-address">
+                <label htmlFor="">Address</label>
+                <input
+                  type="text"
+                  placeholder="Address of the Place"
+                  required={true}
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </div>
+
+              <div className="addlocation-number">
+                <label htmlFor="">Number</label>
+                <input
+                  type="text"
+                  placeholder="Number of the Place"
+                  required={true}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
+                />
+              </div>
+
+              <div className="addlocation-img">
+                <label htmlFor="">Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  required={true}
+                  onChange={imgOnChange}
+                />
+              </div>
             </div>
-            <div class="cut"></div>
-            <div className="addlocation-rating">
-              <label htmlFor="">Rating</label>
-              <Rating onClick={handleRating} />
-              <div class="cut"></div>
-            </div>
-            <div class="cut"></div>
-            <div className="addlocation-img">
-              <label htmlFor="">Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                required={true}
-                onChange={imgOnChange}
-              />
-            </div>
-            <div class="cut"></div>
           </div>
-        </div>
-      </form>
-      <div className="addlocation-location">
-        <button onClick={(e) => getLocationClick(e)}>
-          Get current Location
-        </button>
+          <div className="addlocation-location" required>
+            <button
+              disabled={!locationClicked ? true : false}
+              className="btn"
+              onClick={(e) => {
+                getLocationClick(e);
+                setLocationClicked(!locationClicked);
+              }}
+            >
+              Get current Location and Submit
+            </button>
+          </div>
+          {/* <div className="addlocation-submit">
+            <button
+              type="text"
+              className="btn"
+             
+            >
+              Submit
+            </button>
+          </div> */}
+        </form>
       </div>
-      <button type="text" onClick={(e) => handleFormSubmit(e)}>
-        Submit
-      </button>
+      <div className="homepage-link" onClick={homepageClick}>
+        Back to Homepage
+      </div>
     </div>
   );
 };

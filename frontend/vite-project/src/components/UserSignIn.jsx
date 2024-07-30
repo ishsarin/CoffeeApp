@@ -95,7 +95,7 @@ const UserSignIn = () => {
             <div class="cut"></div>
           </div>
 
-          <button type="text" class="submit">
+          <button type="text" class="submit btn">
             Submit
           </button>
         </div>
