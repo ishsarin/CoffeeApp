@@ -18,7 +18,7 @@ function App() {
     axios.get("/api/homepage").then((response) => {
       setLoading(!loading);
 
-      console.log(response);
+      console.log(response.data);
       // const newData = response.map((place) => {
       //   const newObj = { ...place, liked: false };
       //   return newObj;
