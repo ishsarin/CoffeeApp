@@ -305,6 +305,17 @@ body {
   justify-content: center;
   align-items: center;
 
+  &-location-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    & div {
+      padding-block: 5px;
+    }
+  }
+
   &-submit button {
     width: 100%;
   }
@@ -334,6 +345,10 @@ body {
     align-items: center;
   }
 
+  &-location {
+    flex-direction: column;
+  }
+
   &-img input {
     width: 55%;
   }
@@ -345,7 +360,7 @@ body {
     align-items: center;
   }
   &-wrapper div {
-    padding-block: 20px;
+    padding-block: 10px;
     // display: flex;
     justify-content: center;
   }

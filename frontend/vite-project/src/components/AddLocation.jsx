@@ -71,8 +71,6 @@ const AddLocation = () => {
     );
 
     // console.log(location);
-
-    handleSubmit();
   };
 
   const handleSubmit = () => {
@@ -159,17 +157,31 @@ const AddLocation = () => {
             </button>
           </div> */}
         </form>
-        <div className="addlocation-location" required>
-          <button
-            // disabled={!locationClicked ? true : false}
-            className="btn"
-            onClick={(e) => {
-              getLocationClick(e);
-              // setLocationClicked(!locationClicked);
-            }}
-          >
-            Get current Location and Submit
-          </button>
+        <div className="addlocation-location-btn" required>
+          <div>
+            <button
+              // disabled={!locationClicked ? true : false}
+              className="btn w-100"
+              onClick={(e) => {
+                getLocationClick(e);
+                setLocationClicked(!locationClicked);
+              }}
+            >
+              Get current Location
+            </button>
+          </div>
+          <div className="w-100">
+            <button
+              disabled={!locationClicked ? true : false}
+              className="btn w-100"
+              onClick={() => {
+                handleSubmit();
+                // setLocationClicked(!locationClicked);
+              }}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
       <div className="homepage-link" onClick={homepageClick}>
