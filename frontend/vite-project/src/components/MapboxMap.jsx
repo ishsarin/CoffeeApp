@@ -84,7 +84,7 @@ const MapboxMap = ({ coffeePlaces }) => {
 
   return (
     <div>
-      <button className="btn w-25" onClick={() => setMode(mode + 1)}>
+      <button className="btn w-25 p-5" onClick={() => setMode(mode + 1)}>
         {mode % 2 === 0 ? "Light Mode" : "Dark Mode"}
       </button>
       <div className="map"></div>
