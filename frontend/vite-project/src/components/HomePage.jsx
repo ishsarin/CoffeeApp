@@ -74,7 +74,10 @@ const HomePage = ({ coffeePlaces, loading }) => {
 
     if (liked.length > 0) {
       fetchLikedPlaces(liked);
-      window.location.href = "/";
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 900);
+      // navigate("/");
     }
   };
   const fetchLikedPlaces = async (liked) => {
@@ -102,13 +105,11 @@ const HomePage = ({ coffeePlaces, loading }) => {
           },
         })
         .then((response) => {
-          // console.log(response.data);
-          if (response === null) {
+          console.log(response);
+          if (response.data === "") {
             setDuplicatePlaces(coffeePlaces);
           } else {
             const res = response.data;
-
-            // console.log(res);
 
             const likedPlaceNames = res.map((likedplace) => likedplace.name);
 

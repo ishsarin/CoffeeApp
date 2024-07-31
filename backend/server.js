@@ -128,7 +128,7 @@ app.get("/api/user/liked-places", async (req, res) => {
   const likedPlacesfromDB = await User.findOne({
     name: req.query.user,
   });
-  // console.log(likedPlacesfromDB);
+  console.log(likedPlacesfromDB);
   res.send(likedPlacesfromDB === null ? null : likedPlacesfromDB.likedPlaces);
 });
 

@@ -24,7 +24,7 @@ const AddLocation = () => {
 
   const navigate = useNavigate();
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = async () => {
     const res = await fetch(
       "https://coffeeapp-a1t9.onrender.com/api/new-location",
       {
@@ -43,9 +43,6 @@ const AddLocation = () => {
         }),
       }
     );
-    // e.preventDefault();
-    // console.log("submit");
-    // console.log(img);
   };
 
   const imgOnChange = (e) => {
@@ -74,7 +71,17 @@ const AddLocation = () => {
     );
 
     // console.log(location);
+
+    handleSubmit();
   };
+
+  const handleSubmit = () => {
+    handleFormSubmit();
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 1500);
+  };
+
   const homepageClick = () => {
     navigate("/");
   };
@@ -83,10 +90,7 @@ const AddLocation = () => {
       <div className="addlocation-header">
         <form
           className="addlocation-form"
-          action="/"
-          onSubmit={(e) => {
-            handleFormSubmit(e);
-          }}
+          // action="/"
         >
           <div className="addlocation-wrapper">
             <h2>Welcome</h2>
@@ -144,18 +148,7 @@ const AddLocation = () => {
               </div>
             </div>
           </div>
-          <div className="addlocation-location" required>
-            <button
-              // disabled={!locationClicked ? true : false}
-              className="btn"
-              onClick={(e) => {
-                getLocationClick(e);
-                // setLocationClicked(!locationClicked);
-              }}
-            >
-              Get current Location and Submit
-            </button>
-          </div>
+
           {/* <div className="addlocation-submit">
             <button
               type="text"
@@ -166,6 +159,18 @@ const AddLocation = () => {
             </button>
           </div> */}
         </form>
+        <div className="addlocation-location" required>
+          <button
+            // disabled={!locationClicked ? true : false}
+            className="btn"
+            onClick={(e) => {
+              getLocationClick(e);
+              // setLocationClicked(!locationClicked);
+            }}
+          >
+            Get current Location and Submit
+          </button>
+        </div>
       </div>
       <div className="homepage-link" onClick={homepageClick}>
         Back to Homepage
