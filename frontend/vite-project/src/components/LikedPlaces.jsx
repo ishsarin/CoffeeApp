@@ -23,9 +23,10 @@ const LikedPlaces = ({ coffeePlaces }) => {
   // };
 
   const removeLikedPlaces = async () => {
-    await removeLikedPlacesClickHandler();
-
-    window.location.href = "/";
+    removeLikedPlacesClickHandler();
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 2000);
     // navigate("/");
   };
 
