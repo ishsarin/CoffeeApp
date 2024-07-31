@@ -17,13 +17,16 @@ const UserSignIn = () => {
     // console.log(userName, password);
 
     try {
-      const res = await fetch("/api/user/signin", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({ userName, password }),
-      });
+      const res = await fetch(
+        "https://coffeeapp-a1t9.onrender.com/api/user/signin",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({ userName, password }),
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Invalid credentials");

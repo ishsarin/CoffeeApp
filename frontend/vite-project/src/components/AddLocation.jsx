@@ -25,21 +25,24 @@ const AddLocation = () => {
   const navigate = useNavigate();
 
   const handleFormSubmit = async (e) => {
-    const res = await fetch("/api/new-location", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        rating,
-        long,
-        lat,
-        img,
-        address,
-        phone,
-      }),
-    });
+    const res = await fetch(
+      "https://coffeeapp-a1t9.onrender.com/api/new-location",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          rating,
+          long,
+          lat,
+          img,
+          address,
+          phone,
+        }),
+      }
+    );
     // e.preventDefault();
     // console.log("submit");
     // console.log(img);

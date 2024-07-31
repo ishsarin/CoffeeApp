@@ -36,13 +36,16 @@ const LikedPlaces = ({ coffeePlaces }) => {
     console.log(placesRemoved);
 
     try {
-      const res = await fetch("/api/user/removed/places", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({ placesRemoved }),
-      });
+      const res = await fetch(
+        "https://coffeeapp-a1t9.onrender.com/api/user/removed/places",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({ placesRemoved }),
+        }
+      );
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -61,7 +64,7 @@ const LikedPlaces = ({ coffeePlaces }) => {
   useEffect(() => {
     try {
       axios
-        .get(`/api/user/liked-places`, {
+        .get(`https://coffeeapp-a1t9.onrender.com/api/user/liked-places`, {
           params: {
             user: user,
           },

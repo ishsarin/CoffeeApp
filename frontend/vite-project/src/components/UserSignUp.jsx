@@ -14,13 +14,16 @@ const UserSignUp = () => {
 
   const signUpFormHandle = async () => {
     console.log(email, userName, password);
-    const res = await fetch("/api/user/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userName, password, email }),
-    });
+    const res = await fetch(
+      "https://coffeeapp-a1t9.onrender.com/api/user/signup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userName, password, email }),
+      }
+    );
     setUser(userName);
     localStorage.setItem("user", JSON.stringify(user));
     signinHandle();

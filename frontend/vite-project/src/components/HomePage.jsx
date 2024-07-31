@@ -78,13 +78,16 @@ const HomePage = ({ coffeePlaces, loading }) => {
     }
   };
   const fetchLikedPlaces = async (liked) => {
-    const result = await fetch("/api/places/liked", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ liked, user }),
-    });
+    const result = await fetch(
+      "https://coffeeapp-a1t9.onrender.com/api/places/liked",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ liked, user }),
+      }
+    );
     // navigate("/liked-places");
     const data = await result.json();
     // console.log(data);
@@ -93,7 +96,7 @@ const HomePage = ({ coffeePlaces, loading }) => {
   const getLikedPlacesFromDB = async () => {
     try {
       axios
-        .get(`/api/user/liked-places`, {
+        .get(`https://coffeeapp-a1t9.onrender.com/api/user/liked-places`, {
           params: {
             user: user,
           },
