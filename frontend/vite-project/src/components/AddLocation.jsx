@@ -75,9 +75,11 @@ const AddLocation = () => {
     handleSubmit();
   };
 
-  const handleSubmit = async () => {
-    await handleFormSubmit();
-    window.location.href = "/";
+  const handleSubmit = () => {
+    handleFormSubmit();
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 2000);
   };
 
   const homepageClick = () => {
