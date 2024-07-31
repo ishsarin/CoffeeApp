@@ -12,10 +12,12 @@ const UserSignUp = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const signUpFormHandle = async () => {
-    console.log(email, userName, password);
+  const signUpFormHandle = async (e) => {
+    // e.preventDefault();
+    // console.log(email, userName, password);
     const res = await fetch(
       "https://coffeeapp-a1t9.onrender.com/api/user/signup",
+      // "/api/user/signup",
       {
         method: "POST",
         headers: {
@@ -41,9 +43,9 @@ const UserSignUp = () => {
   return (
     <>
       <form
-        action="/user/sign-in"
+        // action="/user/sign-in"
         className="user-signin-form"
-        onSubmit={signUpFormHandle}
+        onSubmit={(e) => signUpFormHandle(e)}
       >
         <div class="form">
           <div class="title">Welcome</div>
