@@ -146,11 +146,11 @@ const AddLocation = () => {
           </div>
           <div className="addlocation-location" required>
             <button
-              disabled={!locationClicked ? true : false}
+              // disabled={!locationClicked ? true : false}
               className="btn"
               onClick={(e) => {
                 getLocationClick(e);
-                setLocationClicked(!locationClicked);
+                // setLocationClicked(!locationClicked);
               }}
             >
               Get current Location and Submit
