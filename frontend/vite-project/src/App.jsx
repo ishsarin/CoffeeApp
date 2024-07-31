@@ -15,16 +15,18 @@ function App() {
     getCoffeePlaces();
   }, []);
   const getCoffeePlaces = async () => {
-    axios.get("/api/homepage").then((response) => {
-      setLoading(!loading);
+    axios
+      .get("https://coffeeapp-a1t9.onrender.com/api/homepage")
+      .then((response) => {
+        setLoading(!loading);
 
-      // console.log(response.data);
-      const newData = response.data.map((place) => {
-        const newObj = { ...place, liked: false };
-        return newObj;
+        console.log(response.data);
+        const newData = response.data.map((place) => {
+          const newObj = { ...place, liked: false };
+          return newObj;
+        });
+        setCoffeePlaces(newData);
       });
-      setCoffeePlaces(newData);
-    });
   };
 
   return (
