@@ -12,6 +12,13 @@ const UserSignUp = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
+  const signupClick = async (e) => {
+    signUpFormHandle(e);
+    setUser(userName);
+    localStorage.setItem("user", JSON.stringify(user));
+    signinHandle();
+  };
+
   const signUpFormHandle = async (e) => {
     // e.preventDefault();
     // console.log(email, userName, password);
@@ -26,9 +33,6 @@ const UserSignUp = () => {
         body: JSON.stringify({ userName, password, email }),
       }
     );
-    setUser(userName);
-    localStorage.setItem("user", JSON.stringify(user));
-    signinHandle();
   };
 
   const signinHandle = () => {
@@ -42,57 +46,66 @@ const UserSignUp = () => {
   };
   return (
     <>
-      <form
-        // action="/user/sign-in"
-        className="user-signin-form"
-        onSubmit={(e) => signUpFormHandle(e)}
-      >
+      <div className="user-signin-form">
         <div class="form">
-          <div class="title">Welcome</div>
-          <div class="subtitle">Let's create your account!</div>
-          <div class="input-container ic1">
-            <input
-              id="name"
-              class="input"
+          <form
+            // action="/user/sign-in"
+            className="form-wrapper"
+          >
+            <div>
+              <div class="title">Welcome</div>
+              <div class="subtitle">Let's create your account!</div>
+              <div class="input-container ic1 w-100">
+                <input
+                  id="name"
+                  class="input"
+                  type="text"
+                  placeholder="User Name"
+                  required={true}
+                  onChange={(e) => {
+                    setUserName(e.target.value);
+                  }}
+                />
+                <div class="cut"></div>
+              </div>
+              <div class="input-container ic2 w-100">
+                <input
+                  id="email"
+                  class="input"
+                  type="text"
+                  placeholder="Email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  required={true}
+                />
+                <div class="cut cut-short"></div>
+              </div>
+              <div class="input-container ic2 w-100">
+                <input
+                  id="password"
+                  class="input"
+                  type="password"
+                  placeholder="Password"
+                  required={true}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <div class="cut"></div>
+              </div>
+            </div>
+          </form>
+          <div className="w-100">
+            <button
               type="text"
-              placeholder="User Name"
-              required={true}
-              onChange={(e) => {
-                setUserName(e.target.value);
-              }}
-            />
-            <div class="cut"></div>
+              class="btn submit mt-0"
+              // onClick={(e) => signUpFormHandle(e)}
+              onClick={(e) => signupClick(e)}
+            >
+              Submit
+            </button>
           </div>
-          <div class="input-container ic2">
-            <input
-              id="email"
-              class="input"
-              type="text"
-              placeholder="Email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              required={true}
-            />
-            <div class="cut cut-short"></div>
-          </div>
-          <div class="input-container ic2">
-            <input
-              id="password"
-              class="input"
-              type="password"
-              placeholder="Password"
-              required={true}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <div class="cut"></div>
-          </div>
-
-          <button type="text" class="btn submit">
-            Submit
-          </button>
         </div>
         <div className="user-signin" onClick={signinHandle}>
           Already have an account? SignIn
@@ -100,7 +113,7 @@ const UserSignUp = () => {
         <div className="user-signin" onClick={guestClick}>
           Continue as Guest
         </div>
-      </form>
+      </div>
     </>
   );
 };
