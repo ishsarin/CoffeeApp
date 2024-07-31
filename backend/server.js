@@ -193,7 +193,7 @@ app.post("/api/user/signin", async (req, res) => {
 
 app.post("/api/user/signup", async (req, res) => {
   const userDetails = req.body;
-  // console.log(newUser);
+  console.log(userDetails);
 
   const newUser = await User.create({
     name: userDetails.userName,
