@@ -35,7 +35,7 @@ const UserSignIn = () => {
       const user = await res.json();
       console.log("User signed in:", user);
       setUser(userName);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(userName));
 
       window.location.href = "/";
       // naviagte("/");
