@@ -8,15 +8,21 @@ import LikedPlaces from "./components/LikedPlaces";
 import UserSignIn from "./components/UserSignIn";
 import UserSignUp from "./components/UserSignUp";
 import AddLocation from "./components/AddLocation";
+import NavBar from "./components/NavBar";
 function App() {
   const [loading, setLoading] = useState(false);
   const [coffeePlaces, setCoffeePlaces] = useState([{}]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [navLikeClicked, setNavLikeClicked] = useState(false);
+  const [searchBtnClicked, setSearchBtnClicked] = useState(false);
+
   useEffect(() => {
     getCoffeePlaces();
   }, []);
   const getCoffeePlaces = async () => {
     axios
-      .get("https://coffeeapp-a1t9.onrender.com/api/homepage")
+      // .get("https://coffeeapp-a1t9.onrender.com/api/homepage")
+      .get("/api/homepage")
       .then((response) => {
         setLoading(!loading);
 
@@ -31,11 +37,27 @@ function App() {
 
   return (
     <>
+      {" "}
       <BrowserRouter>
+        <NavBar
+          setNavLikeClicked={setNavLikeClicked}
+          navLikeClicked={navLikeClicked}
+          coffeePlaces={coffeePlaces}
+          onSearch={setSearchTerm}
+          setSearchBtnClicked={setSearchBtnClicked}
+        />
         <Routes>
           <Route
             path="/"
-            element={<HomePage coffeePlaces={coffeePlaces} loading={loading} />}
+            element={
+              <HomePage
+                coffeePlaces={coffeePlaces}
+                loading={loading}
+                navLikeClicked={navLikeClicked}
+                searchTerm={searchTerm}
+                searchBtnClicked={searchBtnClicked}
+              />
+            }
           />
           <Route path="/liked-places" element={<LikedPlaces />} />
           <Route path="/user/sign-up" element={<UserSignUp />} />

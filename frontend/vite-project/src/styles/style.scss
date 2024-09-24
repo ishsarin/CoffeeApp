@@ -45,13 +45,15 @@ body {
   &-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
     font-weight: 600;
     margin-top: 20px;
   }
 
   &-card {
     &-wrapper {
+      display: flex;
+      justify-content: center;
       margin-block: 20px;
       padding-inline: 0px !important;
       font-weight: 600;
@@ -103,6 +105,10 @@ body {
 
 .feather-star {
   margin-right: 5px;
+}
+
+.feather:hover {
+  cursor: pointer;
 }
 
 .searchbar {

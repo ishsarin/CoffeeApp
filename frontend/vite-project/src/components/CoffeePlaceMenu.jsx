@@ -113,7 +113,7 @@ const CoffeePlaceMenu = ({ placeInfo }) => {
           <Row className="coffeePlaces-wrapper">
             {!foodtab
               ? beverages.map((data) => (
-                  <Col md={3} key={data.id} className="beverages-wrapper">
+                  <Col md={4} key={data.id} className="beverages-wrapper">
                     <Card style={{ width: "18rem", border: "none" }}>
                       <Card.Img
                         variant="top"
@@ -158,7 +158,7 @@ const CoffeePlaceMenu = ({ placeInfo }) => {
                   </Col>
                 ))
               : food.map((data) => (
-                  <Col md={3} key={data.id} className="beverages-wrapper">
+                  <Col md={4} key={data.id} className="beverages-wrapper">
                     <Card style={{ width: "18rem", border: "none" }}>
                       <Card.Img
                         variant="top"

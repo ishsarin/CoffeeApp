@@ -37,7 +37,8 @@ const LikedPlaces = ({ coffeePlaces }) => {
 
     try {
       const res = await fetch(
-        "https://coffeeapp-a1t9.onrender.com/api/user/removed/places",
+        // "https://coffeeapp-a1t9.onrender.com/api/user/removed/places",
+        "/api/user/removed/places",
         {
           method: "POST",
           headers: {
@@ -64,7 +65,8 @@ const LikedPlaces = ({ coffeePlaces }) => {
   useEffect(() => {
     try {
       axios
-        .get(`https://coffeeapp-a1t9.onrender.com/api/user/liked-places`, {
+        // .get(`https://coffeeapp-a1t9.onrender.com/api/user/liked-places`, {
+        .get(`/api/user/liked-places`, {
           params: {
             user: user,
           },

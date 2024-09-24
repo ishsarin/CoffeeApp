@@ -13,11 +13,19 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../media/logo.png";
 
-const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
+const NavBar = ({
+  navLikeClicked,
+  setNavLikeClicked,
+  coffeePlaces,
+  onSearch,
+  setSearchBtnClicked,
+}) => {
   const { user, setUser } = useContext(PlaceMenuContext);
   const [likedPlaces, setLikedPlaces] = useState([]);
 
   const [searchVal, setSearchVal] = useState("");
+
+  const [searchBarClicked, setSearchBarClicked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -39,13 +47,13 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
     navigate("/new/add-location");
   };
 
-  const searchBar = (e) => {
-    e.preventDefault();
-    let searchValue = document.querySelector(".me-2");
-    let searchResult = coffeePlaces.filter((place) =>
-      place.name.toLowerCase().includes(searchValue.value.toLowerCase())
-    );
-    console.log(searchResult);
+  const searchBtnClicked = (e) => {
+    // console.log(e);
+    const search_val = document.querySelector(".searchBar");
+    onSearch(search_val.value);
+    if (search_val.value != "") {
+      setSearchBtnClicked(true);
+    } else setSearchBtnClicked(false);
   };
 
   return (
@@ -64,16 +72,12 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll" className="navbar-searchtabs">
-            <Form
-              className="d-flex searchbar mx-auto"
-              onSubmit={(e) => searchBar(e)}
-            >
+            <Form className="d-flex searchbar mx-auto">
               <Form.Control
                 type="search"
                 placeholder="Search for places"
-                className="me-2"
+                className="me-2 searchBar"
                 aria-label="Search"
-                // value={searchVal}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +90,7 @@ const NavBar = ({ navLikeClicked, setNavLikeClicked, coffeePlaces }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="feather feather-search"
-                // onClick={searchChange}
+                onClick={(e) => searchBtnClicked(e)}
               >
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
