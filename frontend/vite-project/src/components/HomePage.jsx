@@ -86,8 +86,8 @@ const HomePage = ({
   };
   const fetchLikedPlaces = async (liked) => {
     const result = await fetch(
-      // "https://coffeeapp-a1t9.onrender.com/api/places/liked",
-      "/api/places/liked",
+      "https://coffeeapp-a1t9.onrender.com/api/places/liked",
+      // "/api/places/liked",
       {
         method: "POST",
         headers: {
@@ -104,8 +104,8 @@ const HomePage = ({
   const getLikedPlacesFromDB = async () => {
     try {
       axios
-        // .get(`https://coffeeapp-a1t9.onrender.com/api/user/liked-places`, {
-        .get(`/api/user/liked-places`, {
+        .get(`https://coffeeapp-a1t9.onrender.com/api/user/liked-places`, {
+          // .get(`/api/user/liked-places`, {
           params: {
             user: user,
           },

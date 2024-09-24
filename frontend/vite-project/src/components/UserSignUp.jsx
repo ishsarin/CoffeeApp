@@ -23,8 +23,8 @@ const UserSignUp = () => {
     // e.preventDefault();
     // console.log(email, userName, password);
     const res = await fetch(
-      // "https://coffeeapp-a1t9.onrender.com/api/user/signup",
-      "/api/user/signup",
+      "https://coffeeapp-a1t9.onrender.com/api/user/signup",
+      // "/api/user/signup",
       {
         method: "POST",
         headers: {

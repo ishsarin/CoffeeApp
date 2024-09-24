@@ -21,8 +21,8 @@ function App() {
   }, []);
   const getCoffeePlaces = async () => {
     axios
-      // .get("https://coffeeapp-a1t9.onrender.com/api/homepage")
-      .get("/api/homepage")
+      .get("https://coffeeapp-a1t9.onrender.com/api/homepage")
+      // .get("/api/homepage")
       .then((response) => {
         setLoading(!loading);
 

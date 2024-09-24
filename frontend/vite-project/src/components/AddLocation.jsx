@@ -26,8 +26,8 @@ const AddLocation = () => {
 
   const handleFormSubmit = async () => {
     const res = await fetch(
-      // "https://coffeeapp-a1t9.onrender.com/api/new-location",
-      "/api/new-location",
+      "https://coffeeapp-a1t9.onrender.com/api/new-location",
+      // "/api/new-location",
       {
         method: "POST",
         headers: {
