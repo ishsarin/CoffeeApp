@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import Nav from "react-bootstrap/Nav";
 import { useEffect } from "react";
 import Navbar from "react-bootstrap/Navbar";
@@ -12,6 +12,7 @@ import { PlaceMenuContext } from "../context/PlaceClickedContextProvider";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../media/logo.png";
+import { use } from "react";
 
 const NavBar = ({
   navLikeClicked,
@@ -19,11 +20,13 @@ const NavBar = ({
   coffeePlaces,
   onSearch,
   setSearchBtnClicked,
+  setCoffeePlaces,
+  searchVal,
+  setSearchVal,
 }) => {
   const { user, setUser } = useContext(PlaceMenuContext);
   const [likedPlaces, setLikedPlaces] = useState([]);
-
-  const [searchVal, setSearchVal] = useState("");
+  const [allPlaces, setAllPlaces] = useState(coffeePlaces);
 
   const [searchBarClicked, setSearchBarClicked] = useState(false);
 
@@ -56,6 +59,11 @@ const NavBar = ({
     } else setSearchBtnClicked(false);
   };
 
+  const handleSearchBarChange = (e) => {
+    const value = e.target.value.toLowerCase().trim();
+    setSearchVal(value);
+  };
+
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary navbar-wrapper">
@@ -78,6 +86,8 @@ const NavBar = ({
                 placeholder="Search for places"
                 className="me-2 searchBar"
                 aria-label="Search"
+                value={searchVal}
+                onChange={handleSearchBarChange}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"

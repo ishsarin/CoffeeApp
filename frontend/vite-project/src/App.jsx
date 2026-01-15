@@ -2,7 +2,7 @@ import "./styles/style.scss";
 import HomePage from "./components/HomePage";
 import { useEffect } from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LikedPlaces from "./components/LikedPlaces";
 import UserSignIn from "./components/UserSignIn";
@@ -15,6 +15,13 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [navLikeClicked, setNavLikeClicked] = useState(false);
   const [searchBtnClicked, setSearchBtnClicked] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
+
+  const filteredPlaces = useMemo(() => {
+    return coffeePlaces.filter((place) =>
+      place?.name?.toLowerCase().includes(searchVal)
+    );
+  }, [coffeePlaces, searchVal]);
 
   useEffect(() => {
     getCoffeePlaces();
@@ -42,16 +49,19 @@ function App() {
         <NavBar
           setNavLikeClicked={setNavLikeClicked}
           navLikeClicked={navLikeClicked}
-          coffeePlaces={coffeePlaces}
+          coffeePlaces={filteredPlaces}
           onSearch={setSearchTerm}
           setSearchBtnClicked={setSearchBtnClicked}
+          setCoffeePlaces={setCoffeePlaces}
+          searchVal={searchVal}
+          setSearchVal={setSearchVal}
         />
         <Routes>
           <Route
             path="/"
             element={
               <HomePage
-                coffeePlaces={coffeePlaces}
+                coffeePlaces={filteredPlaces}
                 loading={loading}
                 navLikeClicked={navLikeClicked}
                 searchTerm={searchTerm}
