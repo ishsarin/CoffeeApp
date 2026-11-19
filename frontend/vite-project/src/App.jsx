@@ -1,7 +1,9 @@
 import "./styles/style.scss";
+import "./styles/mobileView.scss";
 import HomePage from "./components/HomePage";
 import { useEffect } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import { useState, useMemo } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LikedPlaces from "./components/LikedPlaces";
@@ -41,11 +43,17 @@ function App() {
         setCoffeePlaces(newData);
       });
   };
+  const location = useLocation();
+  const hideNavbar = [
+    '/user/sign-up',
+    '/user/sign-in',
+  ].includes(window.location.pathname);
 
   return (
     <>
       {" "}
-      <BrowserRouter>
+      {
+        !hideNavbar &&
         <NavBar
           setNavLikeClicked={setNavLikeClicked}
           navLikeClicked={navLikeClicked}
@@ -56,25 +64,26 @@ function App() {
           searchVal={searchVal}
           setSearchVal={setSearchVal}
         />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <HomePage
-                coffeePlaces={filteredPlaces}
-                loading={loading}
-                navLikeClicked={navLikeClicked}
-                searchTerm={searchTerm}
-                searchBtnClicked={searchBtnClicked}
-              />
-            }
-          />
-          <Route path="/liked-places" element={<LikedPlaces />} />
-          <Route path="/user/sign-up" element={<UserSignUp />} />
-          <Route path="/user/sign-in" element={<UserSignIn />} />
-          <Route path="/new/add-location" element={<AddLocation />} />
-        </Routes>
-      </BrowserRouter>
+      }
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <HomePage
+              coffeePlaces={filteredPlaces}
+              loading={loading}
+              navLikeClicked={navLikeClicked}
+              searchTerm={searchTerm}
+              searchBtnClicked={searchBtnClicked}
+            />
+          }
+        />
+        <Route path="/liked-places" element={<LikedPlaces />} />
+        <Route path="/user/sign-up" element={<UserSignUp />} />
+        <Route path="/user/sign-in" element={<UserSignIn />} />
+        <Route path="/new/add-location" element={<AddLocation />} />
+      </Routes>
+
     </>
   );
 }

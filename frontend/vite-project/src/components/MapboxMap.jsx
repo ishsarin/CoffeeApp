@@ -6,6 +6,8 @@ import { Popup } from "react-map-gl";
 import { useRef } from "react";
 import pin from "../media/pin.png";
 import dot from "../media/dot.png";
+import { Sun } from "lucide-react";
+import { Moon } from "lucide-react";
 import { useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 const MapboxMap = ({ coffeePlaces }) => {
@@ -84,101 +86,117 @@ const MapboxMap = ({ coffeePlaces }) => {
 
   return (
     <div>
-      <button className="btn w-25 p-5" onClick={() => setMode(mode + 1)}>
-        {mode % 2 === 0 ? "Light Mode" : "Dark Mode"}
-      </button>
-      <div className="map"></div>
-      <Map
-        mapLib={import("mapbox-gl")}
-        initialViewState={{
-          longitude: currentLong,
-          latitude: currentLat,
-          zoom: 1.5,
-        }}
-        mapboxAccessToken="pk.eyJ1IjoiaXNoc2FyaW4iLCJhIjoiY2x4a25oY2JrMDJ6YzJrcXV4cWEybjgyZSJ9.Ig4XsyEO50Op7hojgrY03Q"
-        projection="globe"
-        mapStyle={
-          mode % 2 === 0
-            ? "mapbox://styles/mapbox/dark-v11"
-            : "mapbox://styles/mapbox/light-v11"
-        }
-        style={{ width: "100%", height: 700 }}
-        // center={[currentLong, currentLat]}
-      >
-        <Marker longitude={currentLong} latitude={currentLat}>
-          <img src={dot} className="curr-marker" />
-        </Marker>
-        {show ? (
-          <Popup
-            longitude={currentLong}
-            latitude={currentLat}
-            anchor="top"
-            onClose={() => {
-              setShowPopup(showPopup);
-              setShow(!show);
+      <div className="d-flex m-3 align-items-center justify-content-center">
+        <div className="theme-toggle">
+          <span className={!mode % 2 ? "active" : ""}><Sun size={28} strokeWidth={1.75} /></span>
+
+          <label className="toggle-switch">
+            <input
+              type="checkbox"
+              checked={mode % 2 == 0}
+              onChange={() => setMode(prev => prev + 1)}
+            />
+            <span className="toggle-slider"></span>
+          </label>
+
+          <span><Moon size={28} strokeWidth={1.75} /></span>
+        </div>
+      </div>
+      <div className="header-map">
+        <div className="map">
+          <Map
+            mapLib={import("mapbox-gl")}
+            initialViewState={{
+              longitude: currentLong,
+              latitude: currentLat,
+              zoom: 1.5,
             }}
-            className="popup-header"
-            closeOnClick={false}
+            mapboxAccessToken={import.meta.env.MAP_BOX_TOKEN}
+            projection="globe"
+            mapStyle={
+              mode % 2 === 0
+                ? "mapbox://styles/mapbox/dark-v11"
+                : "mapbox://styles/mapbox/light-v11"
+            }
+            style={{ width: "100%", height: 700 }}
+          // center={[currentLong, currentLat]}
           >
-            <div>current location</div>
-          </Popup>
-        ) : (
-          ""
-        )}
-        {markers.map((place) => (
-          <>
-            <Marker
-              longitude={place.long}
-              latitude={place.lat}
-              className="marker"
-              onClick={(e) => markerClickHandle(e, place)}
-            ></Marker>
-          </>
-        ))}
-        {show ? (
-          <Popup
-            longitude={popupLong}
-            latitude={popupLat}
-            anchor="top"
-            onClose={() => {
-              setShowPopup(showPopup);
-              setShow(!show);
-            }}
-            className="popup-header"
-            closeOnClick={false}
-          >
-            <div className="popup-wrapper">
-              <h5 className="popup-name">{name}</h5>
-              <h6 className="popup-rating">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="rgb(253,203,110)"
-                  stroke="rgb(253,203,110)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-star"
-                >
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                </svg>
-                {rating}
-              </h6>
-              <h6>
-                <address>{address}</address>
-              </h6>
-              <h6>{number}</h6>
-              <h7 className="popup-dist">Distance: {dist} km</h7>
-              {/* <address className="popup-address">{place.address}</address> */}
-            </div>
-          </Popup>
-        ) : (
-          ""
-        )}
-      </Map>
-    </div>
+            <Marker longitude={currentLong} latitude={currentLat}>
+              <img src={dot} className="curr-marker" />
+            </Marker>
+            {show ? (
+              <Popup
+                longitude={currentLong}
+                latitude={currentLat}
+                anchor="top"
+                onClose={() => {
+                  setShowPopup(showPopup);
+                  setShow(!show);
+                }}
+                className="popup-header"
+                closeOnClick={false}
+              >
+                <div>current location</div>
+              </Popup>
+            ) : (
+              ""
+            )}
+            {markers.map((place) => (
+              <>
+                <Marker
+                  longitude={place.long}
+                  latitude={place.lat}
+                  className="marker"
+                  onClick={(e) => markerClickHandle(e, place)}
+                ></Marker>
+              </>
+            ))}
+            {show ? (
+              <Popup
+                longitude={popupLong}
+                latitude={popupLat}
+                anchor="top"
+                onClose={() => {
+                  setShowPopup(showPopup);
+                  setShow(!show);
+                }}
+                className="popup-header"
+                closeOnClick={false}
+              >
+                <div className="popup-wrapper">
+                  <h5 className="popup-name">{name}</h5>
+                  <h6 className="popup-rating">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgb(253,203,110)"
+                      stroke="rgb(253,203,110)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-star"
+                    >
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    {rating}
+                  </h6>
+                  <h6>
+                    <address>{address}</address>
+                  </h6>
+                  <h6>{number}</h6>
+                  <h7 className="popup-dist">Distance: {dist} km</h7>
+                  {/* <address className="popup-address">{place.address}</address> */}
+                </div>
+              </Popup>
+            ) : (
+              ""
+            )}
+          </Map>
+        </div>
+      </div>
+    </div >
   );
 };
 
